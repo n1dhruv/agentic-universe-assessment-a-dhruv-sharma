@@ -8,7 +8,7 @@ Build a local Python pipeline that reads messy customer and call files, stores s
 |---|---:|---|---|
 | 1 | 30 min | Complete | [Project setup](phase-01-project-setup.md) |
 | 2 | 45 min | Complete | [Storage and privacy](phase-02-storage-and-privacy.md) |
-| 3 | 75 min | Not started | [Lead ingestion](phase-03-lead-ingestion.md) |
+| 3 | 75 min | Complete | [Lead ingestion](phase-03-lead-ingestion.md) |
 | 4 | 75 min | Not started | [Event ledger](phase-04-event-ledger.md) |
 | 5 | 90 min | Not started | [Reports](phase-05-reports.md) |
 | 6 | 75 min | Not started | [Verification](phase-06-verification.md) |
@@ -57,3 +57,7 @@ The original specification governs exact fields and rules: https://github.com/Ar
 The central record is [progress.md](progress.md). It tracks completion percentage, phase status, every meaningful change, fixes, unplanned work, failed attempts, verification, and blockers. Update it after each work batch and before handing work back.
 
 Mark phases `In progress` or `Complete` only as work advances. Tick completion checks only after verification. Add actual commands and results to each phase's evidence section. Keep this index and the central tracker synchronized. Phase 7 closes only after a clean-checkout rehearsal.
+
+## Phase 3 delivery
+
+Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase-03-lead-ingestion.md) and use `ingest --leads-only` explicitly. Call events and reports remain unimplemented. Current verified completion is recorded in [progress.md](progress.md).

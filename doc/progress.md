@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 17:11 IST.
+Last updated: 2026-11-13, 18:05 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **25.0% — 11 of 44 acceptance checks verified** |
-| Phases complete | **2 of 7** |
+| Required project completion | **40.9% — 18 of 44 acceptance checks verified** |
+| Phases complete | **3 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Through Phase 2; see execution history |
-| Application tests | Current suite: 3 storage tests passed; Phase 3/4 draft tests removed |
+| Implementation | Phases 1–3 complete; Phase 4 and reporting not started |
+| Application tests | 55 passed: 52 Phase 3 checks plus 3 storage regression tests |
 | Submission readiness | Not ready |
-| Active work | Drafts removed; stopped after Phase 2 pending the user's next request |
-| Known implementation bugs | None found in the Phase 2 recheck; ingestion/reporting are not complete |
+| Active work | Stopped after Phase 3; awaiting the user's request for Phase 4 |
+| Known implementation bugs | None found in the current tests; call-event ingestion and reporting remain unimplemented |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -35,12 +35,12 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 |---|---|---:|---:|---|
 | [1: Setup](phase-01-project-setup.md) | Complete | 5/5 | 100.0% | Verified; see phase evidence |
 | [2: Storage and privacy](phase-02-storage-and-privacy.md) | Complete | 6/6 | 100.0% | Verified; see phase evidence |
-| [3: Lead ingestion](phase-03-lead-ingestion.md) | Not started | 0/7 | 0.0% | Drafts removed; plan retained |
+| [3: Lead ingestion](phase-03-lead-ingestion.md) | Complete | 7/7 | 100.0% | Verified; see Phase 3 evidence |
 | [4: Event ledger](phase-04-event-ledger.md) | Not started | 0/7 | 0.0% | Pending |
 | [5: Reports](phase-05-reports.md) | Not started | 0/6 | 0.0% | Pending |
 | [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0.0% | Pending |
 | [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
-| **Total** | **In progress** | **11/44** | **25.0%** | **Complete required core** |
+| **Total** | **In progress** | **18/44** | **40.9%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -125,6 +125,27 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Completion impact: None; 11/44 verified checks (25.0%) and 2/7 complete phases.
 - Remaining work: Stop here. Start Phase 3 only when requested by the user.
 
+### LOG-007 — Phase 3 authorized and started
+
+- Date: 2026-11-13.
+- Request: Explain the phone fingerprint and implement Phase 3 only.
+- Decision: Require `ingest --leads-only` during this phase so skipping event files is explicit. Reuse Phase 2 encryption and transaction storage.
+- Verification: Reviewed local lead rules, both schemas, source code, tests, and the clean Git working tree before implementation.
+- Completion impact: None until the Phase 3 acceptance checks pass; currently 11/44 (25.0%).
+
+### BUILD-003 — Phase 3 completed and verified
+
+- Date: 2026-11-13.
+- Category: Authorized Phase 3 implementation only.
+- Changes: Added `solution/normalize.py` and `solution/leads.py`, connected explicit `ingest --leads-only` to the CLI, and added `tests/test_normalize.py` and `tests/test_leads.py`. Updated the phase guide, roadmap, and submission assumptions.
+- Behavior: Schema-driven customer validation, aliases, accepted-row warnings, reason-only rejection storage, keyed phone matching, encrypted non-null merges, permanent first batch, deferred defaults, source-level counters, repeat skipping, and per-drop rollback. No event importer or event-linking draft was created.
+- Verification: `.venv/bin/python -m pytest -q`: 55 passed in 0.27 seconds. CLI help and `git diff --check` passed. Imported seed-42 drops into the separate phase3-demo database and verified 1892 leads, 108 rejections, 57 merges, 122 warnings, 6 sources, and 0 events.
+- Repeat verification: Ingesting the parent data directory afterward skipped all 6 files and left the complete logical database dump unchanged. Sample count conservation passed.
+- Decisions: Temporary phase boundary requires `--leads-only`; exact source changes and ambiguous CSV headers fail safely. Detailed rules and reusable commands are in the Phase 3 guide and `SUBMISSION.md`.
+- Fixes/failed attempts: No failing test or implementation fix occurred in this Phase 3 run. Added a specific regression case to prove later invalid optional values preserve earlier valid values; all tests remained green.
+- Completion impact: Phase 3 receives 7 checks; total 18/44 (40.9%), 3/7 phases complete.
+- Boundary: Stop here. Phase 4 remains Not started, and reports remain unavailable. Private handoff details and clean dependency installation remain open.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -145,7 +166,7 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
 
-Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user has requested stopping after Phase 2.
+Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 3 only; it is now complete. Stop before Phase 4.
 
 ## Verification history
 
@@ -156,20 +177,28 @@ Network retrieval failures were investigated and worked around for local develop
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-The current suite contains only the 3 passing Phase 2 storage tests. Earlier Phase 3 test runs are historical; their files and implementation have been removed. Phase 2 privacy, key validation, immutable events, and rollback passed; lead uniqueness and encrypted persistence also passed an isolated recheck. Complete reporting and ingestion are not implemented.
+Current suite: 55 passing tests covering Phase 3 customer ingestion and Phase 2 storage regression. The earlier removed Phase 3/4 drafts remain historical; the new customer-only implementation is separately authorized and verified. Event processing and all report generation remain unimplemented.
 
-### Latest verification — draft removal
+### Historical verification — draft removal
 
 - `.venv/bin/python -m pytest -q`: 3 passed.
 - CLI help/init: passed.
 - Future ingest/report placeholders: expected exit 1, clear messages, no traceback.
 - File inventory and database/key byte-preservation checks: passed.
 
+### Latest verification — Phase 3
+
+- `.venv/bin/python -m pytest -q`: 55 passed.
+- `ingest --leads-only` imports only customer files; no event markers or ledger records created.
+- Seed 42: 2057 rows = 1892 unique leads + 108 rejected rows + 57 merged duplicate rows.
+- Re-ingestion: 6 files skipped, all new-work counters zero, logical database unchanged.
+- `git diff --check`: passed.
+
 ## Next actions
 
-1. User reviews the Phase 1 and Phase 2 explanations and may run the documented self-tests.
-2. Stop here until the user requests Phase 3.
-3. When requested, implement Phase 3 from its preserved plan. No draft implementation remains.
+1. User reads the Phase 3 explanation and may run the self-test commands in its guide.
+2. Stop until the user requests Phase 4.
+3. When requested, implement the event ledger and late linking from the preserved Phase 4 plan.
 
 ## Mandatory update protocol
 

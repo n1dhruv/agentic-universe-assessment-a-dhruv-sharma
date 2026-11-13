@@ -1,6 +1,7 @@
 """Command-line entry point. Run from the project root."""
 
 import argparse
+import json
 from pathlib import Path
 import sqlite3
 
@@ -18,15 +19,28 @@ def main():
         command.add_argument("--key-file", type=Path, default=Path("var/keys.json"))
         if name == "ingest":
             command.add_argument("path", type=Path)
+            command.add_argument("--leads-only", action="store_true",
+                                 help="Import customer CSVs only; event processing is not implemented yet.")
         if name == "report":
             command.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     try:
-        if args.command != "init":
-            raise ValueError(f"{args.command} is not implemented yet; only Phases 1 and 2 are complete")
-        from .storage import initialize
-        initialize(args.db, args.key_file)
-        print("Database and keys ready; existing data preserved.")
+        from .storage import initialize, open_database
+        if args.command == "init":
+            initialize(args.db, args.key_file)
+            print("Database and keys ready; existing data preserved.")
+        elif args.command == "ingest" and args.leads_only:
+            from .leads import ingest_leads
+            connection, privacy = open_database(args.db, args.key_file)
+            try:
+                result = ingest_leads(connection, privacy, args.path)
+                print(json.dumps(result, sort_keys=True))
+            finally:
+                connection.close()
+        elif args.command == "ingest":
+            raise ValueError("Call-event ingestion is not implemented yet; use --leads-only for Phase 3")
+        else:
+            raise ValueError("report is not implemented yet; it belongs to Phase 5")
     except (ValueError, OSError, sqlite3.Error) as error:
         # Application errors contain locations and reasons, never raw customer values.
         parser.exit(1, f"Error: {error}\n")
