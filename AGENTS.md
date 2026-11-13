@@ -49,7 +49,7 @@ Read [progress.md](doc/progress.md) for the current state before beginning work.
 
 ## Working method
 
-- Work through phases in order. Add focused tests with the behavior they verify.
+- Work through one phase at a time. After completing a phase, explain the result in simple language, provide self-test commands and expected outputs, then stop until the user requests the next phase. Add focused tests with the behavior they verify.
 - Keep phase checklists and the progress index accurate. Record commands, outcomes, and material limitations.
 - Maintain `doc/progress.md` after every meaningful work batch and before handing work back. Record all phase work, bug fixes, unplanned changes, failed attempts, reversions, verification, and blockers. Follow its mandatory update protocol.
 - Recalculate completion from verified phase acceptance checks, not estimated effort. Keep the central tracker, roadmap statuses, and phase evidence synchronized. Reopen checks when regressions invalidate them.

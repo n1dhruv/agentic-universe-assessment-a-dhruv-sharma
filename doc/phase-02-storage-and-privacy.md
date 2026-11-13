@@ -1,6 +1,6 @@
 # Phase 2: Storage and Privacy
 
-Status: Not started. Target: 45 minutes. Dependency: Phase 1.
+Status: Complete. Target: 45 minutes. Dependency: Phase 1.
 
 ## Outcome
 
@@ -21,13 +21,37 @@ Use parameterized SQL and SQLite foreign-key enforcement. Keep schema creation s
 
 ## Completion checks
 
-- [ ] Records survive closing and reopening the database.
-- [ ] Uniqueness constraints reject duplicate identities.
-- [ ] Encryption round trips preserve original values.
-- [ ] Database values contain no plaintext test names or phone variants.
-- [ ] Missing or wrong keys fail without modifying data.
-- [ ] A forced import error rolls back records, markers, and counters.
+- [x] Records survive closing and reopening the database.
+- [x] Uniqueness constraints reject duplicate identities.
+- [x] Encryption round trips preserve original values.
+- [x] Database values contain no plaintext test names or phone variants.
+- [x] Missing or wrong keys fail without modifying data.
+- [x] A forced import error rolls back records, markers, and counters.
 
 ## Evidence
 
 Pending: record privacy, persistence, constraints, and rollback test results. Never paste secrets into this document.
+
+## Execution evidence and self-check
+
+Implemented authenticated encryption for whole lead/event bodies, keyed HMAC identities, owner-only keys, key/database binding, append-only ledger triggers, and transactions. `.venv/bin/python -m pytest tests/test_storage.py -q`: 3 passed. `.venv/bin/python -m solution init`: succeeded. The forced transaction failure leaves no records or source markers. For your own check, rerun those two commands; initialization preserves existing keys.
+
+## Phase 2 recheck after scope correction
+
+- `.venv/bin/python -m pytest tests/test_storage.py -q`: 3 passed in 0.03 seconds.
+- `.venv/bin/python -m solution init`: succeeded without replacing keys.
+- An isolated temporary database check confirmed unique lead identities, encrypted customer values absent from raw database bytes, and correct decryption after reopening.
+- This verifies storage foundations, not finished ingestion or reporting. Those remain later-phase work.
+
+### Simple explanation and commands
+
+The database is a notebook that remembers information after the program closes. Private customer information is locked before saving. A separate key unlocks it. Phone fingerprints let us match customers without keeping readable phone numbers in database records. Original call diary entries cannot be edited or deleted through normal database operations. If a transaction fails, its unfinished changes are cancelled together.
+
+From the project root, run:
+
+```bash
+.venv/bin/python -m solution init
+.venv/bin/python -m pytest tests/test_storage.py -v
+```
+
+Expected: initialization prints `Database and keys ready; existing data preserved.` The test command reports `3 passed`. Tests use temporary databases and do not change the working database.

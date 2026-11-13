@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 16:48 IST.
+Last updated: 2026-11-13, 17:11 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **0% — 0 of 44 acceptance checks verified** |
-| Phases complete | **0 of 7** |
+| Required project completion | **25.0% — 11 of 44 acceptance checks verified** |
+| Phases complete | **2 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Not started |
-| Application tests | Not written or run |
+| Implementation | Through Phase 2; see execution history |
+| Application tests | Current suite: 3 storage tests passed; Phase 3/4 draft tests removed |
 | Submission readiness | Not ready |
-| Active work | Project tracking established; ready to start Phase 1 |
-| Known implementation bugs | None identified; implementation does not exist yet |
+| Active work | Drafts removed; stopped after Phase 2 pending the user's next request |
+| Known implementation bugs | None found in the Phase 2 recheck; ingestion/reporting are not complete |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -33,14 +33,14 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 
 | Phase | Status | Verified checks | Completion | Remaining outcome |
 |---|---|---:|---:|---|
-| [1: Setup](phase-01-project-setup.md) | Not started | 0/5 | 0% | Starter, environment, CLI, and sample inputs |
-| [2: Storage and privacy](phase-02-storage-and-privacy.md) | Not started | 0/6 | 0% | Safe persistent data and atomic imports |
-| [3: Lead ingestion](phase-03-lead-ingestion.md) | Not started | 0/7 | 0% | Correct customer validation and merging |
-| [4: Event ledger](phase-04-event-ledger.md) | Not started | 0/7 | 0% | Deduplicated events and late linking |
-| [5: Reports](phase-05-reports.md) | Not started | 0/6 | 0% | Five exact output files |
-| [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0% | Evidence for correctness and repeatability |
-| [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0% | Clean-checkout proof and truthful handoff documents |
-| **Total** | **Not started** | **0/44** | **0%** | **Complete required core** |
+| [1: Setup](phase-01-project-setup.md) | Complete | 5/5 | 100.0% | Verified; see phase evidence |
+| [2: Storage and privacy](phase-02-storage-and-privacy.md) | Complete | 6/6 | 100.0% | Verified; see phase evidence |
+| [3: Lead ingestion](phase-03-lead-ingestion.md) | Not started | 0/7 | 0.0% | Drafts removed; plan retained |
+| [4: Event ledger](phase-04-event-ledger.md) | Not started | 0/7 | 0.0% | Pending |
+| [5: Reports](phase-05-reports.md) | Not started | 0/6 | 0.0% | Pending |
+| [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0.0% | Pending |
+| [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
+| **Total** | **In progress** | **11/44** | **25.0%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -84,22 +84,68 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Verification: Filesystem and local Markdown link checks confirm the new location and references.
 - Completion impact: None; implementation remains 0/44 (0%).
 
+
+### BUILD-001 — Phase 1 verified
+
+- Date: 2026-11-13.
+- Category: Planned implementation.
+- Change and verification: Created CLI help, restored the supplied Assessment A assets through web retrieval, generated seed 42 (4247 and 4498 event lines), and verified Git ignores. Run `.venv/bin/python -m solution --help` and `.venv/bin/python assignment-a-data/tools/generate_data.py --seed 42 --scale small --out data`. Python 3.14.8 is used. Git/PyPI DNS failed; offline resolver attempts also failed. Copied installed cryptography 50.0.1, cffi 2.1.1, pytest 9.1.1 and supporting distributions into the isolated venv; crypto round-trip and pytest imports pass. Original Git history could not be fetched; existing project history is preserved. Clean internet dependency installation is not yet verified.
+- Completion: 5/44 checks (11.4%).
+
+
+### BUILD-002 — Phase 2 verified
+
+- Date: 2026-11-13.
+- Category: Planned implementation.
+- Change and verification: Implemented authenticated encryption for whole lead/event bodies, keyed HMAC identities, owner-only keys, key/database binding, append-only ledger triggers, and transactions. `.venv/bin/python -m pytest tests/test_storage.py -q`: 3 passed. `.venv/bin/python -m solution init`: succeeded. The forced transaction failure leaves no records or source markers. For your own check, rerun those two commands; initialization preserves existing keys.
+- Completion: 11/44 checks (25.0%).
+
+### LOG-005 — Enforced one-phase-at-a-time delivery and rechecked Phase 2
+
+- Date: 2026-11-13.
+- Category: User scope correction, verification, and progress-record correction.
+- Reason: The user requested completing and explaining Phases 1–2 before proceeding further.
+- Existing work disclosed: `solution/normalize.py`, `solution/ingest.py`, `tests/conftest.py`, `tests/test_normalize.py`, and `tests/test_leads.py` were already written before the interruption. The normalization/lead checks reported 35 passed. Phase 4 has a partial ingestion draft, but event linking/classification and all reports are unfinished. These drafts earn no additional acceptance credit.
+- Changes this batch: Updated `AGENTS.md` to require stopping after each phase, corrected stale summary/dependency statements, and added plain-language explanations and self-test commands to the Phase 1 and Phase 2 documents. No application code changed.
+- Verification: `.venv/bin/python -m pytest tests/test_storage.py -q` reported 3 passed in 0.03 seconds. CLI help and repeated initialization passed. An isolated temporary-database check also proved customer-identity uniqueness, encrypted lead persistence, and decryption after reopening.
+- Boundary: Stop after Phase 2. Resume later phases only when the user requests them.
+- Completion impact: Remains 11/44 checks, 25.0%; two phases accepted.
+- Limitation: Internet dependency installation and clean-checkout reproduction remain unverified; local dependency distributions were copied into the isolated environment because DNS and offline resolution failed.
+
+### LOG-006 — Removed premature Phase 3/4 implementation
+
+- Date: 2026-11-13.
+- Category: User-requested removal and CLI correction.
+- Reason: The user requested removing all unfinished Phase 3/4 drafts before proceeding.
+- Removed: `solution/normalize.py`, `solution/ingest.py`, `tests/conftest.py`, `tests/test_normalize.py`, and `tests/test_leads.py`, plus their compiled caches and stale pytest cache entries.
+- Preserved: Phase 1 command scaffolding, Phase 2 storage/privacy code and tests, starter schemas/generator, current database and keys, and all phase planning documents.
+- CLI correction: Removed imports and execution paths for draft ingestion/reporting. The future `ingest` and `report` command placeholders return exit status 1 with a clear not-implemented message before touching storage.
+- Documentation: Reset Phases 3 and 4 to Not started in the roadmap, phase documents, and tracker. Earlier draft history is retained as an accurate historical record; the code no longer exists.
+- Verification: `.venv/bin/python -m pytest -q` reported 3 passed in 0.04 seconds. Subprocess checks confirmed help and initialization succeed, both placeholders fail clearly without tracebacks, only Phase 1/2 Python sources remain, and working database/key bytes remain unchanged.
+- Completion impact: None; 11/44 verified checks (25.0%) and 2/7 complete phases.
+- Remaining work: Stop here. Start Phase 3 only when requested by the user.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
 |---|---|---|---|---|---|
 | EXTRA-001 | 2026-11-13 | Tracking improvement | Added a central progress ledger at the user's request; the original plan had only phase-level evidence | Baseline checklist count and document consistency checks | Complete |
 
-No implementation bug fixes have occurred yet. For every future fix, add an activity entry describing the symptom, cause, changed behavior, affected files, verification, and remaining limitations. Record failed attempts and reverted changes too, with their outcomes.
+EXTRA-002: Corrected stale progress claims and recorded early Phase 3/4 drafts. The agent had moved beyond the intended phase boundary; the user clarified delivery must stop after each phase. No implementation fix was needed in the Phase 2 recheck.
+
+EXTRA-003: Removed premature Phase 3/4 drafts and corrected CLI placeholders to avoid imports of missing implementation modules. Verification passed; details are in LOG-006.
+
+For every future fix, add an activity entry describing the symptom, cause, changed behavior, affected files, verification, and remaining limitations. Record failed attempts and reverted changes too, with their outcomes.
 
 ## Issues, dependencies, and blockers
 
 | ID | Item | Impact | Status / next action |
 |---|---|---|---|
-| DEP-001 | Starter repository is not present locally | Phase 1 cannot finish without supplied assets | Pending: import starter while preserving existing documents |
+| DEP-001 | Direct Git retrieval failed | Original starter Git history was unavailable | Resolved for A assets: retrieved supplied files through the web tool; existing local history preserved |
+| DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
 
-No active implementation blocker has been investigated yet. These pending dependencies must not be described as completed or resolved without evidence.
+Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user has requested stopping after Phase 2.
 
 ## Verification history
 
@@ -110,14 +156,20 @@ No active implementation blocker has been investigated yet. These pending depend
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-Application test results, report correctness, privacy, and ingestion behavior remain unverified.
+The current suite contains only the 3 passing Phase 2 storage tests. Earlier Phase 3 test runs are historical; their files and implementation have been removed. Phase 2 privacy, key validation, immutable events, and rollback passed; lead uniqueness and encrypted persistence also passed an isolated recheck. Complete reporting and ingestion are not implemented.
+
+### Latest verification — draft removal
+
+- `.venv/bin/python -m pytest -q`: 3 passed.
+- CLI help/init: passed.
+- Future ingest/report placeholders: expected exit 1, clear messages, no traceback.
+- File inventory and database/key byte-preservation checks: passed.
 
 ## Next actions
 
-1. Start Phase 1 by importing the starter repository without overwriting existing planning documents.
-2. Read the local contract and reconcile any plan differences before implementation.
-3. Set up the environment, CLI, ignored local artifacts, and sample data.
-4. Record evidence and update phase status as checks actually pass.
+1. User reviews the Phase 1 and Phase 2 explanations and may run the documented self-tests.
+2. Stop here until the user requests Phase 3.
+3. When requested, implement Phase 3 from its preserved plan. No draft implementation remains.
 
 ## Mandatory update protocol
 

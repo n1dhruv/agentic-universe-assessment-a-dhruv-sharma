@@ -6,15 +6,15 @@ Build a local Python pipeline that reads messy customer and call files, stores s
 
 | Phase | Target | Status | Definition |
 |---|---:|---|---|
-| 1 | 30 min | Not started | [Project setup](phase-01-project-setup.md) |
-| 2 | 45 min | Not started | [Storage and privacy](phase-02-storage-and-privacy.md) |
+| 1 | 30 min | Complete | [Project setup](phase-01-project-setup.md) |
+| 2 | 45 min | Complete | [Storage and privacy](phase-02-storage-and-privacy.md) |
 | 3 | 75 min | Not started | [Lead ingestion](phase-03-lead-ingestion.md) |
 | 4 | 75 min | Not started | [Event ledger](phase-04-event-ledger.md) |
 | 5 | 90 min | Not started | [Reports](phase-05-reports.md) |
 | 6 | 75 min | Not started | [Verification](phase-06-verification.md) |
 | 7 | 30 min | Not started | [Submission preparation](phase-07-submission.md) |
 
-Total target: 7 focused hours, plus 1 hour for fixes. These are estimates, not recorded time. All implementation remains pending.
+Total target: 7 focused hours, plus 1 hour for fixes. These are estimates, not recorded time. See progress.md for verified implementation status.
 
 ## Intended interfaces
 
