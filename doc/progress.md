@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 20:26 IST.
+Last updated: 2026-11-13, 21:05 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **70.5% — 31 of 44 acceptance checks verified** |
-| Phases complete | **5 of 7** |
+| Required project completion | **84.1% — 37 of 44 acceptance checks verified** |
+| Phases complete | **6 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Phases 1–5 complete, including all five reports; Phases 6–7 remain Not started |
-| Application tests | 96 passed, including 13 new report tests; fixture-path recheck: 13 passed |
+| Implementation | Phases 1–6 complete; Phase 7 submission preparation remains Not started |
+| Application tests | 99 passed; zero failures/errors/skips; full run 17.46 seconds |
 | Submission readiness | Not ready |
-| Active work | Stopped after Phase 5; awaiting the user's request for Phase 6 |
-| Known implementation bugs | None found in current checks; broader final verification remains pending |
+| Active work | Stopped after Phase 6; awaiting the user's request for Phase 7 |
+| Known implementation bugs | None found in Phase 6 checks; clean setup and handoff remain pending |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -38,9 +38,9 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 | [3: Lead ingestion](phase-03-lead-ingestion.md) | Complete | 7/7 | 100.0% | Verified; see Phase 3 evidence |
 | [4: Event ledger](phase-04-event-ledger.md) | Complete | 7/7 | 100.0% | Verified; see Phase 4 evidence |
 | [5: Reports](phase-05-reports.md) | Complete | 6/6 | 100.0% | All five exact fixtures and repeat-report checks passed |
-| [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0.0% | Pending |
+| [6: Verification](phase-06-verification.md) | Complete | 6/6 | 100.0% | Three fresh seeds, failure/retry, privacy, and report equality passed |
 | [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
-| **Total** | **In progress** | **31/44** | **70.5%** | **Complete required core** |
+| **Total** | **In progress** | **37/44** | **84.1%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -192,6 +192,33 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Completion impact: Accepted 6 Phase 5 checks; total 31/44 (70.5%), 5/7 phases complete.
 - Boundary: Stop here. No Phase 6 fresh-seed audit or Phase 7 clean-checkout/submission work was performed. Submission destination and clean dependency installation remain open.
 
+### LOG-010 — Phase 6 authorized and verification scope established
+
+- Date: 2026-11-13.
+- Request: Complete Phase 6 properly and stop before Phase 7.
+- Review: Read the local phase checklist, agent rules, shared ingestion/reporting code, current storage checks, dependencies, and progress. Git working tree was clean.
+- Approach: Retain hand-calculated fixture tests for exact correctness. Add process-level generated-data checks for seeds 42, 7, and 99: report after each drop, late-link resolution, replay invariance, fresh combined import equality, subprocess reopening, privacy sampling, and real import failure/retry.
+- Boundaries: Use temporary databases and inputs; leave existing user data/reports untouched. Do not add application features or perform submission preparation.
+- Completion impact: None until checks pass; 31/44 accepted checks (70.5%).
+
+### BUILD-006 — Phase 6 completed and verified
+
+- Date: 2026-11-13.
+- Category: Authorized verification only; no application source changes.
+- Changes: Added `tests/test_end_to_end.py` with three generated-data scenarios, plus measured Phase 6 evidence and updated current test-command expectations in the guides. Generated XML/JSON run artifacts are ignored under `var/phase6/`.
+- Focused evidence: Storage/privacy and exact report fixture gate reported 16 passed in 0.37 seconds.
+- Full evidence: `.venv/bin/python -m pytest -q --junitxml=var/phase6/verification.xml -o junit_logging=all`: 99 passed in 17.46 seconds, zero failures, errors, or skips. Parsed JUnit records confirm all three seed scenarios passed.
+- Scenarios: Each seed generated inputs in temporary directories, imported drop 1, generated partial reports, imported drop 2, resolved earlier orphans without changing old ciphertext, reopened in fresh processes, re-imported without state/counter changes, and compared all five report bytes with a fresh combined-directory import using independent keys.
+- Seed 42: 1892 leads, 2536 calls, 8500 stored events, 910 earlier orphans resolved; complete scenario 5.9433 seconds.
+- Seed 7: 1886 leads, 2544 calls, 8561 stored events, 951 earlier orphans resolved; complete scenario 5.3137 seconds.
+- Seed 99: 1901 leads, 2592 calls, 8690 stored events, 1056 earlier orphans resolved; complete scenario 5.3537 seconds.
+- Recovery: Seed 42 included a deliberately invalid event after valid drop-2 work. Import failed as expected, the logical database and partial report bytes stayed unchanged, and retry after restoring the file matched an uninterrupted combined run. This expected failure is a passing recovery check, not a product test failure.
+- Privacy: Integrity and foreign-key checks passed; sampled schema-marked PII from 33 leads per sequential/combined database was absent from raw database bytes. Raw keys were absent, key permissions were owner-only, and fixed known-PII fixtures passed. Sampling limits are explicitly documented.
+- Limits: No official answer key, exhaustive arbitrary-input privacy audit, actual kill/power-loss/concurrent-writer test, or large-data performance claim. Clean dependency installation and submission destination remain Phase 7 concerns.
+- Fixes: No failing test or product defect was found; no application fix or feature was added.
+- Completion impact: Accepted 6 Phase 6 checks; 37/44 (84.1%), 6/7 phases complete.
+- Boundary: Stop before Phase 7. Existing user input files, databases, and sample reports remain untouched.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -216,7 +243,7 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
 
-Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 5; it is now complete. Stop before Phase 6.
+Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 6; it is now complete. Stop before Phase 7.
 
 ## Verification history
 
@@ -227,7 +254,7 @@ Network retrieval failures were investigated and worked around for local develop
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-Current suite: 96 passing tests covering customer ingestion, event linking, report contracts, and storage regressions. The 13 report tests passed again after the fixture-path correction. All five reports are implemented; Phase 6 broader verification and Phase 7 handoff preparation remain pending.
+Current suite: 99 passing tests covering the original rules plus generated-data subprocess checks on seeds 42, 7, and 99. Exact fixtures, repeatability, late linking, recovery, and sampled privacy checks pass. Phase 7 clean-checkout and handoff preparation remain pending.
 
 ### Historical verification — draft removal
 
@@ -252,7 +279,7 @@ Current suite: 96 passing tests covering customer ingestion, event linking, repo
 - Earlier orphan resolution and unchanged original ciphertext verified.
 - Read-only SQLite queries for the user's Phase 3 database verified.
 
-### Latest verification — Phase 5
+### Historical verification — Phase 5
 
 - `.venv/bin/python -m pytest -q`: 96 passed in 0.79 seconds.
 - `.venv/bin/python -m pytest tests/test_reports.py -q` after fixture-path correction: 13 passed in 0.40 seconds.
@@ -261,11 +288,20 @@ Current suite: 96 passing tests covering customer ingestion, event linking, repo
 - Repeated sample report generation changed neither output bytes nor logical database contents.
 - Fixture files are visible to Git; generated reports remain ignored.
 
+### Latest verification — Phase 6
+
+- Full suite: 99 passed in 17.46 seconds, zero failures/errors/skips.
+- Seeds 42, 7, and 99: report-after-each-drop, replay invariance, independent-key combined import equality, canonical state equality, process reopening, and report invariants passed.
+- Seed 42 failure injection: complete rollback, unchanged partial reports, and successful retry verified.
+- Fixed privacy fixtures plus 33-lead samples per generated database, absent raw key material, key permissions, and SQLite integrity checks passed.
+- Timings and limitations are in the Phase 6 guide; generated evidence lives under ignored `var/phase6/`.
+- No application source changed; no product defect was found.
+
 ## Next actions
 
-1. User may inspect the five sample reports and run the Phase 5 commands in its guide.
-2. Stop until the user requests Phase 6.
-3. When requested, perform the broader verification phase across fresh seeds and completion gates without adding features.
+1. User may run the Phase 6 commands and inspect the documented evidence.
+2. Stop until the user requests Phase 7.
+3. When requested, finish honest submission/AI-use documents, clean-checkout verification, and private handoff preparation.
 
 ## Mandatory update protocol
 

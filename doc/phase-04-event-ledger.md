@@ -61,7 +61,7 @@ cd /home/dhruv/assessment-a
 .venv/bin/python -m solution ingest data/drop_2 --db var/my-phase4.sqlite3 --key-file var/my-phase4.keys.json
 ```
 
-Expected: 28 event tests and 83 total tests pass. On a fresh database, drop 1 imports 5 files and drop 2 imports 3 files. The final `quality` object reports 8745 event lines, 8 malformed events, 237 duplicate deliveries, 462 remaining orphans, and 18 unknown outcomes. The final `event_state` reports 8020 eligible events.
+Expected with the current Phase 6 suite: 28 event tests and 99 total tests pass. On a fresh database, drop 1 imports 5 files and drop 2 imports 3 files. The final `quality` object reports 8745 event lines, 8 malformed events, 237 duplicate deliveries, 462 remaining orphans, and 18 unknown outcomes. The final `event_state` reports 8020 eligible events.
 
 Unlike Phase 3, the default `ingest` now imports both leads and events. The optional `--leads-only` command remains supported and produces the same customer-only output as before. An existing Phase 3 database can be upgraded by running a full import: known customer files are skipped, and event files are added without recounting customer rows.
 

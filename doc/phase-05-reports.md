@@ -83,7 +83,7 @@ cd /home/dhruv/assessment-a
 .venv/bin/python -m solution report --out reports/phase5-demo --db var/phase4-demo.sqlite3 --key-file var/phase4-demo.keys.json
 ```
 
-Expected: 13 report tests pass, 96 total tests pass, then `Wrote five report files.`
+Expected with the current Phase 6 suite: 13 report tests pass, 99 total tests pass, then `Wrote five report files.`
 
 If using your own Phase 4 database, replace the database/key arguments with `var/my-phase4.sqlite3` and `var/my-phase4.keys.json`.
 

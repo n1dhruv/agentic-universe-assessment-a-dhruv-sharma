@@ -59,7 +59,7 @@ cd /home/dhruv/assessment-a
 .venv/bin/python -m solution ingest data --leads-only --db var/my-phase3.sqlite3 --key-file var/my-phase3.keys.json
 ```
 
-Expected with the current Phase 4 suite: 83 tests pass (55 were present at Phase 3 delivery). For a fresh `my-phase3` database and the supplied seed-42 data, the import prints:
+Expected with the current Phase 6 suite: 99 tests pass (55 were present at Phase 3 delivery). For a fresh `my-phase3` database and the supplied seed-42 data, the import prints:
 
 ```json
 {"duplicate_lead_rows_merged": 57, "field_warnings": 122, "imported_files": 6, "lead_rows_rejected": 108, "lead_rows_total": 2057, "scope": "leads_only", "skipped_files": 0}
