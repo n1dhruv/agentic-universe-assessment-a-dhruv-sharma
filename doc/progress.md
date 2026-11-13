@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 18:05 IST.
+Last updated: 2026-11-13, 19:44 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **40.9% — 18 of 44 acceptance checks verified** |
-| Phases complete | **3 of 7** |
+| Required project completion | **56.8% — 25 of 44 acceptance checks verified** |
+| Phases complete | **4 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Phases 1–3 complete; Phase 4 and reporting not started |
-| Application tests | 55 passed: 52 Phase 3 checks plus 3 storage regression tests |
+| Implementation | Phases 1–4 complete; report generation remains Not started |
+| Application tests | 83 passed, including 28 new event tests and earlier regression coverage |
 | Submission readiness | Not ready |
-| Active work | Stopped after Phase 3; awaiting the user's request for Phase 4 |
-| Known implementation bugs | None found in the current tests; call-event ingestion and reporting remain unimplemented |
+| Active work | Stopped after Phase 4; awaiting the user's request for Phase 5 |
+| Known implementation bugs | None found in current checks; reports are not implemented |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -36,11 +36,11 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 | [1: Setup](phase-01-project-setup.md) | Complete | 5/5 | 100.0% | Verified; see phase evidence |
 | [2: Storage and privacy](phase-02-storage-and-privacy.md) | Complete | 6/6 | 100.0% | Verified; see phase evidence |
 | [3: Lead ingestion](phase-03-lead-ingestion.md) | Complete | 7/7 | 100.0% | Verified; see Phase 3 evidence |
-| [4: Event ledger](phase-04-event-ledger.md) | Not started | 0/7 | 0.0% | Pending |
+| [4: Event ledger](phase-04-event-ledger.md) | Complete | 7/7 | 100.0% | Verified; see Phase 4 evidence |
 | [5: Reports](phase-05-reports.md) | Not started | 0/6 | 0.0% | Pending |
 | [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0.0% | Pending |
 | [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
-| **Total** | **In progress** | **18/44** | **40.9%** | **Complete required core** |
+| **Total** | **In progress** | **25/44** | **56.8%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -146,6 +146,30 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Completion impact: Phase 3 receives 7 checks; total 18/44 (40.9%), 3/7 phases complete.
 - Boundary: Stop here. Phase 4 remains Not started, and reports remain unavailable. Private handoff details and clean dependency installation remain open.
 
+### LOG-008 — Phase 4 authorized and baseline checked
+
+- Date: 2026-11-13.
+- Request: Explain how to inspect SQLite and complete Phase 4 only.
+- Discovery: `sqlite3` is installed. The user's populated database is `var/my-phase3.sqlite3`: 951 motor-renewal leads and 941 feedback leads. Supplied read-only table/count/rejection queries.
+- Baseline: `.venv/bin/python -m pytest -q`: 55 passed in 0.27 seconds. Git working tree was clean.
+- Implementation decision: Move existing drop/source transaction ownership into a shared ingestion module, preserving lead-only behavior and old databases. Add event ingestion and derived event classification separately; do not change the original encrypted ledger.
+- Completion impact: None yet; 18/44 verified checks (40.9%). Phase 5 remains Not started.
+
+### BUILD-004 — Phase 4 completed and verified
+
+- Date: 2026-11-13.
+- Category: Authorized Phase 4 implementation and compatibility-preserving extraction.
+- Change: Added encrypted unique event ingestion, malformed/duplicate counters, UTC timestamp normalization, derived linking/quarantine, workflow-specific catalogue checks, and cumulative quality summaries in `solution/events.py`. Shared source/drop ownership is in `solution/ingest.py`; `solution/leads.py` retains its customer-only compatibility API. CLI defaults to full import and still supports `--leads-only`.
+- Behavior: Ordinary events match their own workflow and phone fingerprint. Overrides match unambiguous workflow/call ownership. New customers or other call events can resolve old orphans. Unknown outcomes are excluded from eligible events. Original ledger bodies never change.
+- Regression evidence: 55 tests passed before extraction and the same 55 passed immediately afterward. After feature implementation, 83 tests passed in 0.57 seconds, including 28 new event tests. Updated the previous CLI-refusal test because full import is now intentionally available.
+- Sample verification: Separate Phase 4 demo imported both seed-42 drops: 1892 leads, 108 rejections, 8 source files, 8745 event lines, 8 malformed, 237 duplicates, and 8500 unique stored events. Final classification: 8020 eligible, 462 orphan, 18 unknown dispositions.
+- Late-link evidence: 910 earlier orphan events resolved after drop 2. All 4160 earlier encrypted event bodies remained unchanged. Small-data drop-2 ingestion/classification measured 0.4464 seconds; no large-data claim made.
+- Repeat/combined evidence: All 8 repeated sources skipped; logical database dump unchanged. Fresh combined-directory ingestion matched sequential event resolution, quality, source counters, and rejections. Existing Phase 3 user/demo databases were left unchanged.
+- User documentation: Added `doc/check-database.md` with verified read-only SQLite commands, safe encrypted previews, and quality-count inspection. Updated Phase 4 commands, roadmap, current Phase 3 CLI notes, and submission assumptions.
+- Failures/fixes: No failing test or product bug fix occurred in this Phase 4 run. The necessary ownership extraction was bracketed by the same passing regression suite.
+- Completion impact: 7 Phase 4 checks accepted; total 25/44 (56.8%), 4/7 phases complete.
+- Boundary: Stop here. No Phase 5 report writer, call buckets, or report aggregation was added. Clean dependency installation and submission destination remain open.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -155,6 +179,8 @@ Keep this history chronological and append new entries. Correct older claims wit
 EXTRA-002: Corrected stale progress claims and recorded early Phase 3/4 drafts. The agent had moved beyond the intended phase boundary; the user clarified delivery must stop after each phase. No implementation fix was needed in the Phase 2 recheck.
 
 EXTRA-003: Removed premature Phase 3/4 drafts and corrected CLI placeholders to avoid imports of missing implementation modules. Verification passed; details are in LOG-006.
+
+EXTRA-004: Added the requested SQLite inspection guide. Shared import ownership was extracted to make combined lead/event imports atomic; this was necessary Phase 4 work and preserved the customer-only API. No extra completion checks were added.
 
 For every future fix, add an activity entry describing the symptom, cause, changed behavior, affected files, verification, and remaining limitations. Record failed attempts and reverted changes too, with their outcomes.
 
@@ -166,7 +192,7 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
 
-Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 3 only; it is now complete. Stop before Phase 4.
+Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 4; it is now complete. Stop before Phase 5.
 
 ## Verification history
 
@@ -177,7 +203,7 @@ Network retrieval failures were investigated and worked around for local develop
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-Current suite: 55 passing tests covering Phase 3 customer ingestion and Phase 2 storage regression. The earlier removed Phase 3/4 drafts remain historical; the new customer-only implementation is separately authorized and verified. Event processing and all report generation remain unimplemented.
+Current suite: 83 passing tests covering customer ingestion, event ingestion/linking, and storage regressions. The earlier removed drafts remain historical; the new implementations were separately authorized. All report generation remains unimplemented.
 
 ### Historical verification — draft removal
 
@@ -186,7 +212,7 @@ Current suite: 55 passing tests covering Phase 3 customer ingestion and Phase 2 
 - Future ingest/report placeholders: expected exit 1, clear messages, no traceback.
 - File inventory and database/key byte-preservation checks: passed.
 
-### Latest verification — Phase 3
+### Historical verification — Phase 3
 
 - `.venv/bin/python -m pytest -q`: 55 passed.
 - `ingest --leads-only` imports only customer files; no event markers or ledger records created.
@@ -194,11 +220,19 @@ Current suite: 55 passing tests covering Phase 3 customer ingestion and Phase 2 
 - Re-ingestion: 6 files skipped, all new-work counters zero, logical database unchanged.
 - `git diff --check`: passed.
 
+### Latest verification — Phase 4
+
+- `.venv/bin/python -m pytest -q`: 83 passed.
+- Separate sample databases prove sequential/combined equality and repeat-import invariance.
+- Event conservation: 8745 lines - 8 malformed - 237 duplicates = 8500 stored events = 8020 eligible + 462 orphan + 18 unknown.
+- Earlier orphan resolution and unchanged original ciphertext verified.
+- Read-only SQLite queries for the user's Phase 3 database verified.
+
 ## Next actions
 
-1. User reads the Phase 3 explanation and may run the self-test commands in its guide.
-2. Stop until the user requests Phase 4.
-3. When requested, implement the event ledger and late linking from the preserved Phase 4 plan.
+1. User may inspect SQLite and run the Phase 4 self-tests in its guide.
+2. Stop until the user requests Phase 5.
+3. When requested, derive call/customer facts and generate the five contracted report files.
 
 ## Mandatory update protocol
 

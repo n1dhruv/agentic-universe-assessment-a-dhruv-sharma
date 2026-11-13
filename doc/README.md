@@ -9,7 +9,7 @@ Build a local Python pipeline that reads messy customer and call files, stores s
 | 1 | 30 min | Complete | [Project setup](phase-01-project-setup.md) |
 | 2 | 45 min | Complete | [Storage and privacy](phase-02-storage-and-privacy.md) |
 | 3 | 75 min | Complete | [Lead ingestion](phase-03-lead-ingestion.md) |
-| 4 | 75 min | Not started | [Event ledger](phase-04-event-ledger.md) |
+| 4 | 75 min | Complete | [Event ledger](phase-04-event-ledger.md) |
 | 5 | 90 min | Not started | [Reports](phase-05-reports.md) |
 | 6 | 75 min | Not started | [Verification](phase-06-verification.md) |
 | 7 | 30 min | Not started | [Submission preparation](phase-07-submission.md) |
@@ -60,4 +60,8 @@ Mark phases `In progress` or `Complete` only as work advances. Tick completion c
 
 ## Phase 3 delivery
 
-Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase-03-lead-ingestion.md) and use `ingest --leads-only` explicitly. Call events and reports remain unimplemented. Current verified completion is recorded in [progress.md](progress.md).
+Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase-03-lead-ingestion.md) and use `ingest --leads-only` explicitly. Full call-event ingestion is now implemented in Phase 4; report generation remains unimplemented. Current verified completion is recorded in [progress.md](progress.md).
+
+## Phase 4 delivery
+
+Default `ingest` now handles customer and call-event files. See [Phase 4](phase-04-event-ledger.md) for tests and expected counts, and [SQLite inspection](check-database.md) for read-only database commands. Phase 5 remains Not started.

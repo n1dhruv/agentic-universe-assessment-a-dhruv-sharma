@@ -59,7 +59,7 @@ cd /home/dhruv/assessment-a
 .venv/bin/python -m solution ingest data --leads-only --db var/my-phase3.sqlite3 --key-file var/my-phase3.keys.json
 ```
 
-Expected: 55 tests pass. For a fresh `my-phase3` database and the supplied seed-42 data, the import prints:
+Expected with the current Phase 4 suite: 83 tests pass (55 were present at Phase 3 delivery). For a fresh `my-phase3` database and the supplied seed-42 data, the import prints:
 
 ```json
 {"duplicate_lead_rows_merged": 57, "field_warnings": 122, "imported_files": 6, "lead_rows_rejected": 108, "lead_rows_total": 2057, "scope": "leads_only", "skipped_files": 0}
@@ -96,7 +96,7 @@ events 0
 
 ## Decisions and phase boundary
 
-- `--leads-only` is required until event ingestion is implemented. Event files and event source markers remain untouched.
+- Phase 3 required `--leads-only`; since Phase 4 it is optional. It still leaves event files and event source markers untouched when selected.
 - Lead files use their logical path inside a drop plus a content digest. Changing an imported logical file fails the transaction; corrected inputs require a fresh database.
 - Duplicate headers mapping to one schema field and rows with extra unlabelled values fail the entire drop. Short rows treat absent cells as missing.
 - Empty optional values do not count as warnings. Invalid optional values do, including values on valid duplicate rows.

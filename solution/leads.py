@@ -1,7 +1,6 @@
 """Schema-driven CSV ingestion. Call events are deliberately outside Phase 3."""
 
 import csv
-import hashlib
 import io
 import json
 from pathlib import Path
@@ -66,52 +65,12 @@ def import_file(connection, privacy, path, source, text, fields):
 
 
 def import_drop(connection, privacy, drop, schemas):
-    # Only lead files are registered. Phase 4 can import events from the same drop later.
-    files = sorted((drop/'leads').glob('*/*.csv'), key=lambda path: (path.name, path.parent.name))
-    result = {'imported_files': 0, 'skipped_files': 0, **dict.fromkeys(COUNTERS, 0)}
-    with connection:
-        connection.execute('BEGIN IMMEDIATE')
-        for path in files:
-            workflow = path.parent.name
-            if workflow not in schemas:
-                raise ValueError('Unknown lead workflow directory')
-            source = path.relative_to(drop).as_posix()
-            body = path.read_bytes()
-            digest = hashlib.sha256(body).hexdigest()
-            existing = connection.execute('SELECT digest FROM sources WHERE path=?', (source,)).fetchone()
-            if existing:
-                if existing['digest'] != digest:
-                    raise ValueError('Previously imported lead file changed; use a fresh database for corrected input')
-                result['skipped_files'] += 1
-                continue
-            connection.execute('INSERT INTO sources VALUES (?,?,?)', (source, digest, '{}'))
-            try:
-                stats = import_file(connection, privacy, path, source, body.decode('utf-8-sig'),
-                                    schemas[workflow]['fields'])
-            except (UnicodeError, csv.Error):
-                raise ValueError('Invalid UTF-8 or CSV structure; drop rolled back') from None
-            connection.execute('UPDATE sources SET stats=? WHERE path=?', (json.dumps(stats), source))
-            result['imported_files'] += 1
-            for name in COUNTERS:
-                result[name] += stats[name]
-    return result
+    """Preserve the lead-only entry point while shared ingestion owns transactions."""
+    from .ingest import import_drop as import_shared_drop
+    return import_shared_drop(connection, privacy, drop, schemas)
 
 
 def ingest_leads(connection, privacy, path):
-    """Import a single drop or sorted child drops; return counts for new files only."""
-    path = Path(path)
-    if not path.is_dir():
-        raise ValueError('Input directory does not exist')
-    if (path/'leads').is_dir() or (path/'events').is_dir():
-        drops = [path]
-    else:
-        drops = [item for item in sorted(path.iterdir()) if item.is_dir() and
-                 ((item/'leads').is_dir() or (item/'events').is_dir())]
-    if not drops:
-        raise ValueError('No drops found; expected a leads/ directory inside each drop')
-    schemas = load_schemas()
-    result = {'scope': 'leads_only', 'imported_files': 0, 'skipped_files': 0, **dict.fromkeys(COUNTERS, 0)}
-    for drop in drops:
-        for name, count in import_drop(connection, privacy, drop, schemas).items():
-            result[name] += count
-    return result
+    """Import customers only; preserve the Phase 3 API and counter format."""
+    from .ingest import ingest
+    return ingest(connection, privacy, path, leads_only=True)

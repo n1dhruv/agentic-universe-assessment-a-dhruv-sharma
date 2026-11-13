@@ -20,7 +20,7 @@ def main():
         if name == "ingest":
             command.add_argument("path", type=Path)
             command.add_argument("--leads-only", action="store_true",
-                                 help="Import customer CSVs only; event processing is not implemented yet.")
+                                 help="Import customer CSVs only and leave call events untouched.")
         if name == "report":
             command.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
@@ -29,16 +29,14 @@ def main():
         if args.command == "init":
             initialize(args.db, args.key_file)
             print("Database and keys ready; existing data preserved.")
-        elif args.command == "ingest" and args.leads_only:
-            from .leads import ingest_leads
+        elif args.command == "ingest":
+            from .ingest import ingest
             connection, privacy = open_database(args.db, args.key_file)
             try:
-                result = ingest_leads(connection, privacy, args.path)
+                result = ingest(connection, privacy, args.path, leads_only=args.leads_only)
                 print(json.dumps(result, sort_keys=True))
             finally:
                 connection.close()
-        elif args.command == "ingest":
-            raise ValueError("Call-event ingestion is not implemented yet; use --leads-only for Phase 3")
         else:
             raise ValueError("report is not implemented yet; it belongs to Phase 5")
     except (ValueError, OSError, sqlite3.Error) as error:

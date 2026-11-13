@@ -1,4 +1,4 @@
-"""Customer import tests. No event import code is exercised or implemented."""
+"""Customer-only import tests, retained as regression coverage for full ingestion."""
 
 import csv
 import json
@@ -199,17 +199,18 @@ def test_parent_directory_matches_sequential_imports(store, tmp_path):
         other.close()
 
 
-def test_cli_requires_explicit_leads_only(tmp_path):
+def test_cli_leads_only_stays_available_when_full_ingestion_is_enabled(tmp_path):
     drop = tmp_path/'drop'
     write_leads(drop,[['Name','9876543210','P1','','','']])
     db, keys = tmp_path/'db',tmp_path/'keys'
     initialize(db,keys)
     base = [sys.executable,'-m','solution','ingest',str(drop),'--db',str(db),'--key-file',str(keys)]
-    refused = subprocess.run(base,capture_output=True,text=True)
-    assert refused.returncode == 1 and 'use --leads-only' in refused.stderr
     imported = subprocess.run([*base,'--leads-only'],capture_output=True,text=True)
     assert imported.returncode == 0, imported.stderr
     assert json.loads(imported.stdout)['lead_rows_total'] == 1
+    full = subprocess.run(base,capture_output=True,text=True)
+    assert full.returncode == 0, full.stderr
+    assert json.loads(full.stdout)['scope'] == 'leads_and_events'
     with sqlite3.connect(db) as connection:
         assert connection.execute('SELECT count(*) FROM events').fetchone()[0] == 0
 
