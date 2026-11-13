@@ -1,0 +1,57 @@
+# Assessment A: Implementation Roadmap
+
+Build a local Python pipeline that reads messy customer and call files, stores safe records in SQLite, and writes five exact reports.
+
+## Phase index
+
+| Phase | Target | Status | Definition |
+|---|---:|---|---|
+| 1 | 30 min | Not started | [Project setup](phase-01-project-setup.md) |
+| 2 | 45 min | Not started | [Storage and privacy](phase-02-storage-and-privacy.md) |
+| 3 | 75 min | Not started | [Lead ingestion](phase-03-lead-ingestion.md) |
+| 4 | 75 min | Not started | [Event ledger](phase-04-event-ledger.md) |
+| 5 | 90 min | Not started | [Reports](phase-05-reports.md) |
+| 6 | 75 min | Not started | [Verification](phase-06-verification.md) |
+| 7 | 30 min | Not started | [Submission preparation](phase-07-submission.md) |
+
+Total target: 7 focused hours, plus 1 hour for fixes. These are estimates, not recorded time. All implementation remains pending.
+
+## Intended interfaces
+
+Run from the project root:
+
+```bash
+python -m solution init
+python -m solution ingest data/drop_1
+python -m solution ingest data/drop_2
+python -m solution report --out reports/
+python -m pytest
+```
+
+Support `--db` and `--key-file` on pipeline commands for isolated runs. `init` creates local keys and database. A parent directory such as `data/` may also be ingested; its drops must be processed in sorted order.
+
+## Architecture
+
+Keep command parsing, normalization, storage/privacy, ingestion, and report calculations separate. Share one call-fact calculation layer across reports.
+
+```text
+CSV leads + JSONL events
+          |
+Schema validation and normalization
+          |
+SQLite: encrypted records + import history + quality statistics
+          |
+Resolve links and effective call outcomes
+          |
+Five report files
+```
+
+## Delivery boundaries
+
+Complete all required core behavior. No frontend, API, Temporal, Postgres deployment, or large-dataset performance target is included. Preserve starter materials, disclose AI assistance, and prepare a private submission.
+
+The original specification governs exact fields and rules: https://github.com/AryamannNingombam/sde-assignment-junior-2026/blob/main/assignment-a-data/README.md
+
+## Progress protocol
+
+Mark phases `In progress` or `Complete` only as work advances. Tick completion checks only after verification. Add actual commands and results to each phase's evidence section. Phase 7 closes only after a clean-checkout rehearsal.
