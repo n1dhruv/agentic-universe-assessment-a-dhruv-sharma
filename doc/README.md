@@ -12,7 +12,7 @@ Build a local Python pipeline that reads messy customer and call files, stores s
 | 4 | 75 min | Complete | [Event ledger](phase-04-event-ledger.md) |
 | 5 | 90 min | Complete | [Reports](phase-05-reports.md) |
 | 6 | 75 min | Complete | [Verification](phase-06-verification.md) |
-| 7 | 30 min | Not started | [Submission preparation](phase-07-submission.md) |
+| 7 | 30 min | Prepared; candidate review pending | [Submission preparation](phase-07-submission.md) |
 
 Total target: 7 focused hours, plus 1 hour for fixes. These are estimates, not recorded time. See progress.md for verified implementation status.
 
@@ -64,12 +64,16 @@ Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase
 
 ## Phase 4 delivery
 
-Default `ingest` now handles customer and call-event files. See [Phase 4](phase-04-event-ledger.md) for tests and expected counts, and [SQLite inspection](check-database.md) for read-only database commands. Phase 5 report generation is now complete; Phase 6 verification is now complete; Phase 7 remains Not started.
+Default `ingest` now handles customer and call-event files. See [Phase 4](phase-04-event-ledger.md) for tests and expected counts, and [SQLite inspection](check-database.md) for read-only database commands. Phase 5 report generation is now complete; Phase 6 verification is now complete; Phase 7 technical preparation is verified; candidate review and external handoff remain pending.
 
 ## Phase 5 delivery
 
-The five report files are implemented. See [Phase 5](phase-05-reports.md) for plain-language explanations, exact fixture coverage, commands, and sample counts. Latest sample artifacts are under `reports/phase5-demo/` and are excluded from Git. Phase 6 has now been separately authorized and completed; stop before Phase 7 until requested.
+The five report files are implemented. See [Phase 5](phase-05-reports.md) for plain-language explanations, exact fixture coverage, commands, and sample counts. Latest sample artifacts are under `reports/phase5-demo/` and are excluded from Git. Phase 6 has now been separately authorized and completed; Phase 7 preparation is now authorized; see its review/handoff status.
 
 ## Phase 6 delivery
 
-The full suite passes 99 tests, including three fresh-seed subprocess scenarios. See [Phase 6 evidence and commands](phase-06-verification.md) for measured results, failure recovery, privacy scope, and limitations. No application code changed during verification. Phase 7 remains Not started.
+The full suite passes 99 tests, including three fresh-seed subprocess scenarios. See [Phase 6 evidence and commands](phase-06-verification.md) for measured results, failure recovery, privacy scope, and limitations. No application code changed during verification. Phase 7 technical preparation is verified; candidate review and external handoff remain pending.
+
+## Phase 7 handoff
+
+Submission documents, fresh installer-based setup verification, and a draft email are prepared. See [Phase 7 evidence](phase-07-submission.md), [code walkthrough](walkthrough.md), and [handoff checklist](submission-checklist.md). The candidate requested a walkthrough before sending; actual reviewer contacts, remote privacy/push/access, and email delivery remain pending. No submission has been sent.

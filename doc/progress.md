@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 21:05 IST.
+Last updated: 2026-11-13, 21:44 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **84.1% — 37 of 44 acceptance checks verified** |
+| Required project completion | **97.7% — 43 of 44 acceptance checks verified** |
 | Phases complete | **6 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Phases 1–6 complete; Phase 7 submission preparation remains Not started |
-| Application tests | 99 passed; zero failures/errors/skips; full run 17.46 seconds |
-| Submission readiness | Not ready |
-| Active work | Stopped after Phase 6; awaiting the user's request for Phase 7 |
-| Known implementation bugs | None found in Phase 6 checks; clean setup and handoff remain pending |
+| Implementation | Application complete; Phase 7 technical preparation verified; candidate final review pending |
+| Application tests | 99 passed again in a clean installer-created environment, 17.63 seconds |
+| Submission readiness | Prepared locally; candidate walkthrough/review, real recipient details, private remote/access verification, and delivery pending |
+| Active work | Local package prepared; requested candidate walkthrough/review and external handoff pending |
+| Known implementation bugs | None found; clean local installer rehearsal passed; online registry and remote handoff unverified |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -39,8 +39,8 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 | [4: Event ledger](phase-04-event-ledger.md) | Complete | 7/7 | 100.0% | Verified; see Phase 4 evidence |
 | [5: Reports](phase-05-reports.md) | Complete | 6/6 | 100.0% | All five exact fixtures and repeat-report checks passed |
 | [6: Verification](phase-06-verification.md) | Complete | 6/6 | 100.0% | Three fresh seeds, failure/retry, privacy, and report equality passed |
-| [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
-| **Total** | **In progress** | **37/44** | **84.1%** | **Complete required core** |
+| [7: Submission](phase-07-submission.md) | Prepared; candidate review pending | 6/7 | 85.7% | Technical checks passed; final personal/AI-use review remains |
+| **Total** | **In progress** | **43/44** | **97.7%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -219,6 +219,32 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Completion impact: Accepted 6 Phase 6 checks; 37/44 (84.1%), 6/7 phases complete.
 - Boundary: Stop before Phase 7. Existing user input files, databases, and sample reports remain untouched.
 
+### LOG-011 — Phase 7 started; private handoff dependencies investigated
+
+- Date: 2026-11-13.
+- Request: Complete Phase 7, then prepare the proper submission.
+- Discovery: Git configuration identifies Dhruv Sharma; the existing remote is `assessment-a` at `https://github.com/n1dhruv/agentic-universe-assessment-a-dhruv-sharma.git`. The current branch is main, with phase-by-phase commits through Phase 6.
+- Network checks: `gh repo view ... --json visibility,url,defaultBranchRef` failed to connect to api.github.com; `git ls-remote` failed DNS. Remote visibility, push state, reviewer access, and delivery cannot yet be verified here.
+- Setup finding: The development venv was created with uv and currently has no pip module. Standard fresh `python -m venv` includes bundled ensurepip, which is available on this host. Will verify a fresh installer-created environment rather than silently rely on copied development packages.
+- Missing personal details: Asked the user for honest effort estimate, actual reviewer handles/email, and whether a walkthrough is needed before submission. Do not invent answers or claim candidate understanding.
+- Scope: Finish reviewable documents and local checks first; retain accurate blockers for any external handoff.
+- Completion impact: Phase 7 in progress; 37/44 (84.1%) verified so far.
+
+### BUILD-007 — Phase 7 technical package prepared; final review and external delivery pending
+
+- Date: 2026-11-13.
+- Candidate input: Name Dhruv Sharma is consistent with Git configuration; the candidate supplied an honest estimate of 8 hours and said a walkthrough is needed before submission. Actual reviewer handles/email were not provided; a targeted follow-up remains pending.
+- Documents: Completed the submission and AI-use drafts with truthful authorship, design, exact commands, limitations, test evidence, and measured results. Added `doc/walkthrough.md`, `doc/submission-email.md`, and `doc/submission-checklist.md`.
+- Starter correction: Initial retrieval had omitted unused supplied starter files. Restored the B README, three provided CSV fixtures, campaigns configuration, mock package, and original solution README from web-retrieved source text. No B implementation was added. Eight existing A/root assets were compared to supplied source text, and all 17 known preserved/restored assets match the local verification manifest.
+- Fresh setup: Used a fresh local clone/snapshot containing only intended files, created a new venv with bundled pip, and installed root requirements using local wheels reconstructed from existing cached distributions. No copied development venv was used. `pip check`, initialization, seed-42 generation, both imports, all reports, and 99 tests passed; clean test run 17.63 seconds.
+- Environment repair: The uv-created development venv lacked pip. Installed bundled pip and completed declared dependencies from the same local source. This changed only ignored environment files, not application behavior.
+- Audit: Intended source/docs/tests contain no generated data/reports, databases, key files, venvs, detected private keys, or common real access-token patterns. Original synthetic B fixtures are retained intentionally. Generated artifacts remain ignored.
+- Network results: GitHub API failed connection and Git remote lookup failed DNS. Cannot verify private visibility, push final work, inspect reviewer access, or claim delivery from this environment. Public-registry downloading was not verified; offline installer verification is documented precisely.
+- Walkthrough: Supplied both a linked detailed code guide and a five-step explanation. Asked whether the candidate can now explain the design; no affirmative confirmation is assumed.
+- Completion impact: Six Phase 7 checks verified; total 43/44 (97.7%). The unchanged final template-accuracy gate is withheld pending candidate walkthrough/review. The original Phase 7 work item explicitly requires candidate understanding, so it is not silently marked complete. No acceptance denominator was changed.
+- Local Git checkpoint: Prepared files were committed locally with message `docs: prepare submission and clean setup evidence`; no remote push was attempted.
+- Handoff: Email is a draft only. Real reviewer details, candidate review, network-enabled private remote/access checks, and actual sending remain pending.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -233,6 +259,8 @@ EXTRA-004: Added the requested SQLite inspection guide. Shared import ownership 
 
 EXTRA-005: Corrected the report-fixture path to avoid the starter Git ignore rule. Evidence: `git check-ignore -v tests/fixtures/reports/lead_report.csv` identified the conflict, the renamed fixtures are visible in Git, and 13 report tests pass. See BUILD-005.
 
+EXTRA-006: Restored nine omitted original starter files during final packaging and repaired missing pip in the development environment. Fresh installer-created verification passed; details and limitations are in BUILD-007.
+
 For every future fix, add an activity entry describing the symptom, cause, changed behavior, affected files, verification, and remaining limitations. Record failed attempts and reverted changes too, with their outcomes.
 
 ## Issues, dependencies, and blockers
@@ -240,10 +268,12 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | ID | Item | Impact | Status / next action |
 |---|---|---|---|
 | DEP-001 | Direct Git retrieval failed | Original starter Git history was unavailable | Resolved for A assets: retrieved supplied files through the web tool; existing local history preserved |
-| DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
-| DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
+| DEP-003 | Public-registry access unavailable | Online package downloading is not verified | Fresh pip installation from local reconstructed wheels and 99 clean-copy tests passed; online access remains an environmental limitation |
+| DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Asked the candidate; still pending |
+| DEP-004 | GitHub API/Git network access failed | Cannot verify private visibility, latest push, or reviewer access | Pending network-enabled verification; no remote mutation attempted |
+| DEP-005 | Candidate requested a walkthrough | Final personal/AI-use accuracy and live-explanation readiness not confirmed | Detailed guide and inline explanation supplied; candidate response pending |
 
-Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 6; it is now complete. Stop before Phase 7.
+Local setup verification now passes using an explicit offline installer source. Online registry access, real reviewer/destination details, candidate review, and network-enabled remote handoff remain unverified. No email has been sent.
 
 ## Verification history
 
@@ -254,7 +284,7 @@ Network retrieval failures were investigated and worked around for local develop
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-Current suite: 99 passing tests covering the original rules plus generated-data subprocess checks on seeds 42, 7, and 99. Exact fixtures, repeatability, late linking, recovery, and sampled privacy checks pass. Phase 7 clean-checkout and handoff preparation remain pending.
+Current suite: 99 tests passed again in a fresh local clone/snapshot with a new installer-created environment. Exact fixtures, three fresh seeds, repeatability, late linking, recovery, and privacy checks pass. Final candidate review and external delivery remain pending.
 
 ### Historical verification — draft removal
 
@@ -288,7 +318,7 @@ Current suite: 99 passing tests covering the original rules plus generated-data 
 - Repeated sample report generation changed neither output bytes nor logical database contents.
 - Fixture files are visible to Git; generated reports remain ignored.
 
-### Latest verification — Phase 6
+### Historical verification — Phase 6
 
 - Full suite: 99 passed in 17.46 seconds, zero failures/errors/skips.
 - Seeds 42, 7, and 99: report-after-each-drop, replay invariance, independent-key combined import equality, canonical state equality, process reopening, and report invariants passed.
@@ -297,11 +327,21 @@ Current suite: 99 passing tests covering the original rules plus generated-data 
 - Timings and limitations are in the Phase 6 guide; generated evidence lives under ignored `var/phase6/`.
 - No application source changed; no product defect was found.
 
+### Latest verification — Phase 7 technical preparation
+
+- Fresh local installer environment: pip installation of declared dependencies and `pip check` passed.
+- Fresh clone/snapshot: initialize, generate seed 42, ingest both drops, report, and 99 tests passed in 17.63 seconds.
+- Seventeen known starter assets verified/restored; original B fixtures intentionally retained.
+- Source artifact/token-pattern audit passed; generated evidence remains under ignored `var/phase7/`.
+- GitHub API and Git lookup failed; no privacy/access/delivery claims made.
+- Candidate walkthrough/final personal review remains unconfirmed; six of seven Phase 7 checks credited.
+
 ## Next actions
 
-1. User may run the Phase 6 commands and inspect the documented evidence.
-2. Stop until the user requests Phase 7.
-3. When requested, finish honest submission/AI-use documents, clean-checkout verification, and private handoff preparation.
+1. Complete the requested candidate walkthrough and final review of submission/AI-use claims.
+2. Obtain actual reviewer usernames and destination email from the sender.
+3. From a network-enabled environment, verify PRIVATE repository visibility, upload the final reviewed commit, and confirm reviewer access.
+4. Send the reviewed email draft and record actual delivery; do not mark it sent merely because the package is prepared.
 
 ## Mandatory update protocol
 
