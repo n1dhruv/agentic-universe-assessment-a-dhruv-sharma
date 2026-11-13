@@ -38,7 +38,13 @@ def main():
             finally:
                 connection.close()
         else:
-            raise ValueError("report is not implemented yet; it belongs to Phase 5")
+            from .reports import write_reports
+            connection, privacy = open_database(args.db, args.key_file)
+            try:
+                write_reports(connection, privacy, args.out, protected_paths=(args.db, args.key_file))
+                print("Wrote five report files.")
+            finally:
+                connection.close()
     except (ValueError, OSError, sqlite3.Error) as error:
         # Application errors contain locations and reasons, never raw customer values.
         parser.exit(1, f"Error: {error}\n")

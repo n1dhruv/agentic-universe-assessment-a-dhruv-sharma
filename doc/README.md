@@ -10,7 +10,7 @@ Build a local Python pipeline that reads messy customer and call files, stores s
 | 2 | 45 min | Complete | [Storage and privacy](phase-02-storage-and-privacy.md) |
 | 3 | 75 min | Complete | [Lead ingestion](phase-03-lead-ingestion.md) |
 | 4 | 75 min | Complete | [Event ledger](phase-04-event-ledger.md) |
-| 5 | 90 min | Not started | [Reports](phase-05-reports.md) |
+| 5 | 90 min | Complete | [Reports](phase-05-reports.md) |
 | 6 | 75 min | Not started | [Verification](phase-06-verification.md) |
 | 7 | 30 min | Not started | [Submission preparation](phase-07-submission.md) |
 
@@ -60,8 +60,12 @@ Mark phases `In progress` or `Complete` only as work advances. Tick completion c
 
 ## Phase 3 delivery
 
-Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase-03-lead-ingestion.md) and use `ingest --leads-only` explicitly. Full call-event ingestion is now implemented in Phase 4; report generation remains unimplemented. Current verified completion is recorded in [progress.md](progress.md).
+Customer-only imports are implemented. Follow [Phase 3 self-test commands](phase-03-lead-ingestion.md) and use `ingest --leads-only` explicitly. Full call-event ingestion is implemented in Phase 4 and report generation in Phase 5. Current verified completion is recorded in [progress.md](progress.md).
 
 ## Phase 4 delivery
 
-Default `ingest` now handles customer and call-event files. See [Phase 4](phase-04-event-ledger.md) for tests and expected counts, and [SQLite inspection](check-database.md) for read-only database commands. Phase 5 remains Not started.
+Default `ingest` now handles customer and call-event files. See [Phase 4](phase-04-event-ledger.md) for tests and expected counts, and [SQLite inspection](check-database.md) for read-only database commands. Phase 5 report generation is now complete; Phase 6 remains Not started.
+
+## Phase 5 delivery
+
+The five report files are implemented. See [Phase 5](phase-05-reports.md) for plain-language explanations, exact fixture coverage, commands, and sample counts. Latest sample artifacts are under `reports/phase5-demo/` and are excluded from Git. Stop before Phase 6 until requested.

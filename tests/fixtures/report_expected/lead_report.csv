@@ -1,0 +1,7 @@
+workflow_id,external_ref,batch_id,phone_masked,bucket,total_calls,connected_calls,last_call_at,current_disposition,ever_success
+motor_renewal,A,batch_001,+91******3210,completed,2,2,2026-10-02T00:01:00+05:30,renewed,true
+motor_renewal,B,batch_001,+91******3211,in_progress_telephony_failed,2,0,2026-10-02T11:00:00+05:30,,false
+motor_renewal,C,batch_001,+91******3212,in_progress_dialed,3,1,2026-10-03T09:00:00+05:30,callback_requested,false
+motor_renewal,D,batch_001,+91******3213,yet_to_reach_out,0,0,,,false
+motor_renewal,E,batch_002,+91******3214,completed,2,2,2026-10-02T15:00:00+05:30,renewed,true
+policy_feedback,F,batch_001,+91******3215,completed,1,1,2026-10-02T10:00:00+05:30,feedback_captured,true

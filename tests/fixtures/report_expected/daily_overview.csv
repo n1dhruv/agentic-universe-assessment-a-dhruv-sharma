@@ -1,0 +1,5 @@
+workflow_id,date,total_calls,connected_calls,connectivity_rate,success_leads
+motor_renewal,2026-10-01,1,1,1.0000,0
+motor_renewal,2026-10-02,7,4,0.5714,2
+motor_renewal,2026-10-03,1,0,0.0000,0
+policy_feedback,2026-10-02,1,1,1.0000,1

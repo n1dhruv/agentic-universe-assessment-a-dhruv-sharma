@@ -84,3 +84,13 @@ PY
 ```
 
 Expected event classification: 8020 eligible events, 462 orphan events, and 18 unknown-disposition events. Their sum is 8500 stored events. This query does not generate the Phase 5 reports.
+
+## Reports available after Phase 5
+
+To turn the inspected database into the five human-readable reports:
+
+```bash
+.venv/bin/python -m solution report --out reports/phase5-demo --db var/phase4-demo.sqlite3 --key-file var/phase4-demo.keys.json
+```
+
+The report command reads stored data without changing it. See [Phase 5](phase-05-reports.md) for output meanings and expected counts.

@@ -1,0 +1,14 @@
+{
+  "duplicate_events_dropped": 1,
+  "duplicate_lead_rows_merged": 1,
+  "events_total": 34,
+  "field_warnings": 2,
+  "lead_rows_rejected": 1,
+  "lead_rows_total": 8,
+  "malformed_events": 1,
+  "orphan_events": 2,
+  "rejections_by_reason": {
+    "missing_required:customer_name": 1
+  },
+  "unknown_disposition_events": 1
+}

@@ -1,19 +1,19 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 19:44 IST.
+Last updated: 2026-11-13, 20:26 IST.
 
 ## Current summary
 
 | Measure | Current state |
 |---|---|
-| Required project completion | **56.8% — 25 of 44 acceptance checks verified** |
-| Phases complete | **4 of 7** |
+| Required project completion | **70.5% — 31 of 44 acceptance checks verified** |
+| Phases complete | **5 of 7** |
 | Planning documentation | Complete for the agreed core scope |
-| Implementation | Phases 1–4 complete; report generation remains Not started |
-| Application tests | 83 passed, including 28 new event tests and earlier regression coverage |
+| Implementation | Phases 1–5 complete, including all five reports; Phases 6–7 remain Not started |
+| Application tests | 96 passed, including 13 new report tests; fixture-path recheck: 13 passed |
 | Submission readiness | Not ready |
-| Active work | Stopped after Phase 4; awaiting the user's request for Phase 5 |
-| Known implementation bugs | None found in current checks; reports are not implemented |
+| Active work | Stopped after Phase 5; awaiting the user's request for Phase 6 |
+| Known implementation bugs | None found in current checks; broader final verification remains pending |
 
 Planning and tracking are complete preparation tasks. They do not count as completed assessment functionality.
 
@@ -37,10 +37,10 @@ If scope changes, record the reason, changed checks, old and new denominator, an
 | [2: Storage and privacy](phase-02-storage-and-privacy.md) | Complete | 6/6 | 100.0% | Verified; see phase evidence |
 | [3: Lead ingestion](phase-03-lead-ingestion.md) | Complete | 7/7 | 100.0% | Verified; see Phase 3 evidence |
 | [4: Event ledger](phase-04-event-ledger.md) | Complete | 7/7 | 100.0% | Verified; see Phase 4 evidence |
-| [5: Reports](phase-05-reports.md) | Not started | 0/6 | 0.0% | Pending |
+| [5: Reports](phase-05-reports.md) | Complete | 6/6 | 100.0% | All five exact fixtures and repeat-report checks passed |
 | [6: Verification](phase-06-verification.md) | Not started | 0/6 | 0.0% | Pending |
 | [7: Submission](phase-07-submission.md) | Not started | 0/7 | 0.0% | Pending |
-| **Total** | **In progress** | **25/44** | **56.8%** | **Complete required core** |
+| **Total** | **In progress** | **31/44** | **70.5%** | **Complete required core** |
 
 ## Completed work and activity history
 
@@ -170,6 +170,28 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Completion impact: 7 Phase 4 checks accepted; total 25/44 (56.8%), 4/7 phases complete.
 - Boundary: Stop here. No Phase 5 report writer, call buckets, or report aggregation was added. Clean dependency installation and submission destination remain open.
 
+### LOG-009 — Phase 5 authorized and started
+
+- Date: 2026-11-13.
+- Request: Complete Phase 5 properly, then stop before Phase 6.
+- Review: Read the original derived-call/report contract, Phase 5 checklist, current event resolver, lead storage, CLI, and tracker. Git working tree was clean.
+- Baseline: `.venv/bin/python -m pytest -q`: 83 tests passed.
+- Approach: One shared call-fact calculation layer; exact file writers using the Phase 4 eligible stream and quality summary. Hand-calculated fixtures establish correctness; generated seed 42 provides a sample smoke check.
+- Completion impact: None yet; 25/44 verified checks (56.8%).
+
+### BUILD-005 — Phase 5 completed and verified
+
+- Date: 2026-11-13.
+- Category: Authorized Phase 5 report implementation only.
+- Changes: Added `solution/reports.py`, enabled the `report` CLI command, and added `tests/test_reports.py` plus independently hand-calculated fixtures under `tests/fixtures/report_expected/`. Updated Phase 5 documentation, the roadmap, SQLite guide, and submission assumptions.
+- Behavior: Shared initiated-call facts drive all business reports, with override precedence, per-lead buckets, distinct daily successes, IST dates, latest-call/current-outcome handling, masked phones, exact sorting/formatting, PII-free rejections, and final quality counts. Reporting does not change stored data.
+- Verification: Baseline 83 passed; new report suite 13 passed; full suite 96 passed in 0.79 seconds. The golden six-customer fixture exactly matches all five expected files. Tests also cover empty outputs, out-of-order overrides, unknown outcomes, success revocation, timestamp ties, initiation anomalies, stable sorting, repeated output, staging failures, CLI use, and database/key collision protection.
+- Fix: Initial fixture directory `tests/fixtures/reports` matched the starter's `reports/` Git ignore rule. Renamed it to `tests/fixtures/report_expected`, updated the test path, confirmed all six documents are visible in Git, and reran the 13 report tests successfully in 0.40 seconds. No product test failure occurred.
+- Sample: Generated `reports/phase5-demo/` from the Phase 4 demo database. Data rows: 6 batch summaries, 33 daily summaries, 1892 customer reports, 108 rejections. Counted calls: 2536; connected: 1467. Cross-report totals and bucket sums agree. Quality counts match Phase 4.
+- Repeat evidence: Every report file was byte-identical on repeat generation; the complete logical database dump remained unchanged. The measured repeat-generation time was 0.3001 seconds on the small dataset, not a large-data performance claim.
+- Completion impact: Accepted 6 Phase 5 checks; total 31/44 (70.5%), 5/7 phases complete.
+- Boundary: Stop here. No Phase 6 fresh-seed audit or Phase 7 clean-checkout/submission work was performed. Submission destination and clean dependency installation remain open.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -182,6 +204,8 @@ EXTRA-003: Removed premature Phase 3/4 drafts and corrected CLI placeholders to 
 
 EXTRA-004: Added the requested SQLite inspection guide. Shared import ownership was extracted to make combined lead/event imports atomic; this was necessary Phase 4 work and preserved the customer-only API. No extra completion checks were added.
 
+EXTRA-005: Corrected the report-fixture path to avoid the starter Git ignore rule. Evidence: `git check-ignore -v tests/fixtures/reports/lead_report.csv` identified the conflict, the renamed fixtures are visible in Git, and 13 report tests pass. See BUILD-005.
+
 For every future fix, add an activity entry describing the symptom, cause, changed behavior, affected files, verification, and remaining limitations. Record failed attempts and reverted changes too, with their outcomes.
 
 ## Issues, dependencies, and blockers
@@ -192,7 +216,7 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | DEP-003 | PyPI DNS and offline dependency resolution failed | Normal dependency installation is unverified | Local environment works using copied installed distributions; clean dependency install remains a Phase 7 limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Pending: obtain from the assignment sender before submission |
 
-Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 4; it is now complete. Stop before Phase 5.
+Network retrieval failures were investigated and worked around for local development. DEP-002 and DEP-003 remain open. The user authorized Phase 5; it is now complete. Stop before Phase 6.
 
 ## Verification history
 
@@ -203,7 +227,7 @@ Network retrieval failures were investigated and worked around for local develop
 | VERIFY-003 | 2026-11-13 | Count phase acceptance checkboxes | Passed: 44 unchecked, 0 checked | Initial implementation completion is 0% |
 | VERIFY-004 | 2026-11-13 | Python filesystem validation of all ten documents, local Markdown links, and checklist totals | Passed: 10 nonempty documents, links resolve, 0/44 checks verified | Progress tracking and documentation references are consistent; no application behavior tested |
 
-Current suite: 83 passing tests covering customer ingestion, event ingestion/linking, and storage regressions. The earlier removed drafts remain historical; the new implementations were separately authorized. All report generation remains unimplemented.
+Current suite: 96 passing tests covering customer ingestion, event linking, report contracts, and storage regressions. The 13 report tests passed again after the fixture-path correction. All five reports are implemented; Phase 6 broader verification and Phase 7 handoff preparation remain pending.
 
 ### Historical verification — draft removal
 
@@ -220,7 +244,7 @@ Current suite: 83 passing tests covering customer ingestion, event ingestion/lin
 - Re-ingestion: 6 files skipped, all new-work counters zero, logical database unchanged.
 - `git diff --check`: passed.
 
-### Latest verification — Phase 4
+### Historical verification — Phase 4
 
 - `.venv/bin/python -m pytest -q`: 83 passed.
 - Separate sample databases prove sequential/combined equality and repeat-import invariance.
@@ -228,11 +252,20 @@ Current suite: 83 passing tests covering customer ingestion, event ingestion/lin
 - Earlier orphan resolution and unchanged original ciphertext verified.
 - Read-only SQLite queries for the user's Phase 3 database verified.
 
+### Latest verification — Phase 5
+
+- `.venv/bin/python -m pytest -q`: 96 passed in 0.79 seconds.
+- `.venv/bin/python -m pytest tests/test_reports.py -q` after fixture-path correction: 13 passed in 0.40 seconds.
+- Exact five-file hand-calculated comparison, empty headers, boolean/rate/timestamp formatting, call/bucket rules, repeat stability, and publication failure checks passed.
+- Sample data rows: 6 batch, 33 daily, 1892 lead, 108 rejection; 2536 calls and 1467 connected calls. Cross-report sums agree.
+- Repeated sample report generation changed neither output bytes nor logical database contents.
+- Fixture files are visible to Git; generated reports remain ignored.
+
 ## Next actions
 
-1. User may inspect SQLite and run the Phase 4 self-tests in its guide.
-2. Stop until the user requests Phase 5.
-3. When requested, derive call/customer facts and generate the five contracted report files.
+1. User may inspect the five sample reports and run the Phase 5 commands in its guide.
+2. Stop until the user requests Phase 6.
+3. When requested, perform the broader verification phase across fresh seeds and completion gates without adding features.
 
 ## Mandatory update protocol
 
