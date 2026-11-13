@@ -6,7 +6,7 @@ Complete the Interaction Ledger & Reporting Pipeline assessment in Python 3.11+.
 
 ## Current state
 
-Only planning documents exist. Implementation, starter repository setup, data generation, and verification remain pending. Never treat a planned check as a completed check.
+Read [progress.md](doc/progress.md) for the current state before beginning work. At initial setup, only planning documents exist; implementation remains pending. Never treat a planned check as a completed check.
 
 ## Sources of truth
 
@@ -51,6 +51,8 @@ Only planning documents exist. Implementation, starter repository setup, data ge
 
 - Work through phases in order. Add focused tests with the behavior they verify.
 - Keep phase checklists and the progress index accurate. Record commands, outcomes, and material limitations.
+- Maintain `doc/progress.md` after every meaningful work batch and before handing work back. Record all phase work, bug fixes, unplanned changes, failed attempts, reversions, verification, and blockers. Follow its mandatory update protocol.
+- Recalculate completion from verified phase acceptance checks, not estimated effort. Keep the central tracker, roadmap statuses, and phase evidence synchronized. Reopen checks when regressions invalidate them.
 - Do not claim generated-seed checks prove exact correctness. Use hand-calculated fixtures for exact report assertions.
 - Follow the shared workspace instructions. Postman CLI is installed, but this local file pipeline needs no API tooling.
 - Do not publish the solution publicly or send submission messages without explicit user authorization.

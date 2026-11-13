@@ -54,4 +54,6 @@ The original specification governs exact fields and rules: https://github.com/Ar
 
 ## Progress protocol
 
-Mark phases `In progress` or `Complete` only as work advances. Tick completion checks only after verification. Add actual commands and results to each phase's evidence section. Phase 7 closes only after a clean-checkout rehearsal.
+The central record is [progress.md](progress.md). It tracks completion percentage, phase status, every meaningful change, fixes, unplanned work, failed attempts, verification, and blockers. Update it after each work batch and before handing work back.
+
+Mark phases `In progress` or `Complete` only as work advances. Tick completion checks only after verification. Add actual commands and results to each phase's evidence section. Keep this index and the central tracker synchronized. Phase 7 closes only after a clean-checkout rehearsal.
