@@ -1,16 +1,14 @@
 # Submission
 
-## Candidate
+## About me
 
-- **Name:** Dhruv Sharma
-- **Assignment chosen:** A — Interaction Ledger & Reporting Pipeline
-- **Time spent:** 8 hours, as estimated by the candidate.
-- **Repository:** https://github.com/n1dhruv/agentic-universe-assessment-a-dhruv-sharma
-- **Review status:** Local implementation and tests are complete. Candidate walkthrough and external handoff are pending. Reviewer handles and submission email must come from the assignment sender; the supplied README contains placeholders.
+I'm Dhruv Sharma. I chose Assignment A, Interaction Ledger & Reporting Pipeline, and spent about 8 hours on it. The implementation is complete and all 99 tests pass.
+
+Repository: https://github.com/n1dhruv/agentic-universe-assessment-a-dhruv-sharma
 
 ## How to run
 
-Python 3.11+ is required. Development and the isolated local rehearsal use Python 3.14.8. From the repository root:
+The project requires Python 3.11+. I used Python 3.14.8 for development and clean-setup verification. Run these commands from the repository root:
 
 ```bash
 python3 -m venv .venv
@@ -37,7 +35,7 @@ The parent directory processes child drops in sorted order. Known files are skip
 
 ## Design
 
-The CLI coordinates schema-driven normalization, transactional SQLite imports, encrypted storage, event linking, and a shared reporting calculation. No HTTP service or external database is needed.
+I used a Python CLI and SQLite so the project runs locally without a database server. Customer validation follows the supplied schemas. Imports run in transactions, private values are encrypted, and all reports share the same call calculations.
 
 ```text
 CSV leads + JSONL events
@@ -61,7 +59,7 @@ Five CSV/JSON reports
 | `events` | Globally unique event ID and encrypted original body. SQLite triggers reject updates and deletes. |
 | `rejections` | Source, workflow, batch, nonblank row number, and reason; no input values. |
 
-Fernet authenticated encryption protects entire customer and event bodies, including all schema-marked PII. Canonical phones are stored inside ciphertext; a separate keyed HMAC permits matching without plaintext phone columns. Independent keys live in an ignored owner-only file. Existing initialization preserves keys; a missing/wrong key fails rather than replacing it. Keep the keys separately if the database needs to be recoverable.
+I used Fernet authenticated encryption for complete customer and event bodies, including all schema-marked PII. Canonical phones are stored inside ciphertext; a separate keyed HMAC permits matching without plaintext phone columns. Independent keys live in an ignored owner-only file. Existing initialization preserves keys; a missing/wrong key fails rather than replacing it. The keys need to be backed up separately to keep the database recoverable.
 
 Each drop commits atomically. Lead files are processed before event files. The first valid lead creates its batch identity; later non-null values merge into its encrypted record. Defaults are resolved after merging, without turning an empty later field into an overwrite.
 
@@ -98,12 +96,12 @@ Reports share one initiated-call model, so buckets, daily figures, and customer 
 - Calculation/staging failure preserves existing reports. A failure during final file replacements can leave a mixture of old and new report versions; the five-file directory is not replaced atomically as a unit.
 - Loss of the separate keys makes the corresponding encrypted data unrecoverable. Rotation and managed key storage are not implemented.
 - Reports and event resolution read all stored records. Large-scale memory/performance targets, concurrent writers, actual power loss/SIGKILL, and all filesystem-failure cases were not tested.
-- Original starter assets were retrieved through the web tool because shell GitHub access failed. The initially omitted Assignment B materials were restored unchanged; no Assignment B solution was implemented. Existing local project commit history is retained, rather than claiming original upstream Git history.
-- A fresh local clone/snapshot and a newly created venv installed all declared dependencies with pip from local wheels reconstructed from existing cached distributions. `pip check`, the documented pipeline, and all 99 tests passed (17.63 seconds). Public-registry access and remote GitHub operations were unavailable; the Phase 7 guide records the exact method and handoff blockers.
+- GitHub access failed from the terminal, so the starter files were retrieved through the web tool. The initially missing Assignment B files have been restored. My implementation covers Assignment A, and the repository retains its local project history.
+- A fresh local clone/snapshot and a newly created venv installed all declared dependencies with pip from local wheels reconstructed from existing cached distributions. `pip check`, the documented pipeline, and all 99 tests passed (17.63 seconds). Online package downloads and remote GitHub operations could not be checked from that environment. The Phase 7 guide records the setup method and remaining handoff steps.
 
 ## Testing
 
-Run `python -m pytest -q`: 99 tests.
+I checked the implementation with 99 automated tests. Run them with `python -m pytest -q`.
 
 Coverage includes field normalization and aliases; rejection priority and row numbering; defaults and non-null merges; encryption, key validation, append-only triggers, and rollback; duplicate/malformed events; late customers and phone-free overrides; IST boundaries; all buckets; exact five-file hand-calculated expectations; success revocation; stable formatting/sorting; staging failures; and protected output paths.
 
@@ -113,7 +111,7 @@ Privacy checks include fixed known-PII fixtures plus 33 sampled customer records
 
 ## Results
 
-Phase 6 full-suite run: 99 passed, no failures/errors/skips, about 17.46 seconds. Complete generated-data scenarios took 5.9433 seconds (seed 42, including failure/retry), 5.3137 seconds (seed 7), and 5.3537 seconds (seed 99), including subprocess startup, generation, multiple imports/reports, and checks.
+The full test suite passed all 99 tests in about 17.46 seconds, with no failures, errors, or skips. Complete generated-data scenarios took 5.9433 seconds (seed 42, including failure/retry), 5.3137 seconds (seed 7), and 5.3537 seconds (seed 99), including subprocess startup, generation, multiple imports/reports, and checks.
 
 | Seed | Unique leads | Counted calls | Unique stored events | Earlier orphans resolved |
 |---|---:|---:|---:|---:|
@@ -121,9 +119,9 @@ Phase 6 full-suite run: 99 passed, no failures/errors/skips, about 17.46 seconds
 | 7 | 1886 | 2544 | 8561 | 951 |
 | 99 | 1901 | 2592 | 8690 | 1056 |
 
-Seed 42 produced 6 batch rows, 33 daily rows, 1892 lead rows, and 108 rejection rows. It had 1467 connected calls. Quality totals: 2057 lead rows, 57 merged duplicates, 122 warnings, 8745 event lines, 8 malformed lines, 237 duplicate deliveries, 462 remaining orphans, and 18 unknown dispositions. Repeated sample reporting took approximately 0.3001 seconds. These are small-data measurements, not a large-dataset performance claim.
+Seed 42 produced 6 batch rows, 33 daily rows, 1892 lead rows, and 108 rejection rows. It had 1467 connected calls. Quality totals: 2057 lead rows, 57 merged duplicates, 122 warnings, 8745 event lines, 8 malformed lines, 237 duplicate deliveries, 462 remaining orphans, and 18 unknown dispositions. Repeated sample reporting took approximately 0.3001 seconds. These timings are for the small dataset; I have not measured the large-dataset stretch target.
 
-## If I had another day
+## What I would improve next
 
 1. Measure the supplied large dataset and profile memory before choosing SQL aggregation or materialized projections.
 2. Add explicit corrected-file replay/backfill and key-rotation procedures.

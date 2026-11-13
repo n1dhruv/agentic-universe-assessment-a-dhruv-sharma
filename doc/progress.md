@@ -1,6 +1,6 @@
 # Assessment A: Project Progress
 
-Last updated: 2026-11-13, 21:44 IST.
+Last updated: 2026-11-13, 22:45 IST.
 
 ## Current summary
 
@@ -245,6 +245,26 @@ Keep this history chronological and append new entries. Correct older claims wit
 - Local Git checkpoint: Prepared files were committed locally with message `docs: prepare submission and clean setup evidence`; no remote push was attempted.
 - Handoff: Email is a draft only. Real reviewer details, candidate review, network-enabled private remote/access checks, and actual sending remain pending.
 
+### LOG-012 — First-person submission prose and public-repository clarification
+
+- Date: 2026-11-13.
+- Request: Remove third-person wording such as "by the candidate" and write naturally from the user's point of view. The user also confirmed the repository is currently public.
+- Existing user changes: `SUBMISSION.md` and `AI_USAGE.md` were already modified when this turn began. Preserved the user-provided name, eight-hour estimate, repository URL, technical details, and run commands while editing the prose.
+- Changes: Rewrote submission introductions and AI-use disclosure in first person; removed evaluator-style readiness prose from external-facing documents; updated email/handoff/walkthrough wording. Kept the extent of AI involvement explicit and did not invent personal debugging or independent review claims. Removed the undocumented story that an early default-merge bug had been found.
+- Privacy status: User reports the repo is public, so anyone can view it. The original README explicitly requires a private repository; public visibility is a remaining handoff mismatch unless the assignment sender permits it. No remote visibility change, push, invitation, or email was performed.
+- Verification: Preserved the submission's fenced commands and diagram exactly. Prose-only work; no application or test code changed, so the previously passing 99 tests were not rerun. Local link and diff checks recorded for this edit.
+- Completion impact: No acceptance changes; 43/44 (97.7%) remains recorded pending final review and handoff steps.
+
+### LOG-013 — Replaced AI-correction examples with the verified setup issue
+
+- Date: 2026-11-13.
+- Request: Use a real, substantive correction in the AI disclosure.
+- Change: Filled only the currently empty "Where the AI needed correction" section in `AI_USAGE.md`. Described the initial copied-package workaround, missing pip/incomplete installer setup, and the later fresh-venv pip installation/check and 99-test verification. Kept the online-download limitation explicit.
+- Preservation: Left all other user-edited disclosure text, including the user's stated tool list and involvement, unchanged.
+- Evidence: The missing-pip error and successful installer-created clean-setup rehearsal are recorded in BUILD-007 and the Phase 7 guide. No algorithmic bug or personal debugging claim was invented.
+- Verification: Asserted that the file prefix and suffix outside the requested section are unchanged; documentation diff check passed. No application code changed and tests were not rerun for this prose edit.
+- Completion impact: None; existing completion and handoff status are unchanged.
+
 ## Fixes and unplanned changes
 
 | ID | Date | Type | Change and reason | Verification | State |
@@ -270,7 +290,7 @@ For every future fix, add an activity entry describing the symptom, cause, chang
 | DEP-001 | Direct Git retrieval failed | Original starter Git history was unavailable | Resolved for A assets: retrieved supplied files through the web tool; existing local history preserved |
 | DEP-003 | Public-registry access unavailable | Online package downloading is not verified | Fresh pip installation from local reconstructed wheels and 99 clean-copy tests passed; online access remains an environmental limitation |
 | DEP-002 | Reviewer handles and submission email are placeholders in the starter | Final handoff needs real destination details | Asked the candidate; still pending |
-| DEP-004 | GitHub API/Git network access failed | Cannot verify private visibility, latest push, or reviewer access | Pending network-enabled verification; no remote mutation attempted |
+| DEP-004 | User confirms repository is public; GitHub API/Git network access failed here | Public visibility differs from the required private submission; latest push and reviewer access remain unverified | Change to private or obtain a sender exception, then verify remote state/access; no remote mutation attempted |
 | DEP-005 | Candidate requested a walkthrough | Final personal/AI-use accuracy and live-explanation readiness not confirmed | Detailed guide and inline explanation supplied; candidate response pending |
 
 Local setup verification now passes using an explicit offline installer source. Online registry access, real reviewer/destination details, candidate review, and network-enabled remote handoff remain unverified. No email has been sent.

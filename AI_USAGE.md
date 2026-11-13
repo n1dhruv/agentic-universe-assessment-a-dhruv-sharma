@@ -1,35 +1,29 @@
-# AI Usage Disclosure
+# AI usage
 
-## Tools used
+## Tools I used
 
-OpenAI Codex/ChatGPT for planning, explanations, implementation, tests, documentation, and local tool execution. The assistant used shell/Python tools and web retrieval of the supplied public starter files.
+I used Claude/Codex/Antigravity throughout this assignment for planning, code generation, tests, documentation, and explanations. Most of the implementation and test code was generated with AI assistance.
 
-## What I used them for
+## How I used AI
 
-- Compared Assessments A and B and chose a manageable core scope with the candidate.
-- Broke Assignment A into phases and maintained local plans and progress records.
-- Generated the Python CLI, normalization, encrypted SQLite storage, import/linking logic, reports, and tests. Most implementation and test code was AI-generated; it should not be represented as independently typed by the candidate.
-- Explained concepts including keyed phone fingerprints, optional-field warnings, idempotency, event linking, SQLite inspection, and report meanings.
-- Ran unit/fixture/integration tests and helped prepare the submission documentation.
+I started by comparing the two assignments and breaking Assignment A into phases. I asked for explanations and commands after each phase so I could follow how the pieces fit together.
 
-## What I wrote or decided myself
+For the implementation, I used AI to help write the CLI, CSV normalization, SQLite storage, encryption and HMAC matching, event linking, and report calculations. It also helped generate tests for malformed input, duplicates, late events, overrides, and repeat imports.
 
-The candidate chose Assignment A, selected complete core scope, requested one-phase-at-a-time delivery with explanations and runnable commands, reviewed sample input/output behavior, asked about invalid written-out amounts and database inspection, and provided an honest time estimate of 8 hours. The repository retains phase-by-phase commit history.
+The documentation and setup instructions were drafted with AI assistance too.
 
-The assistant proposed and implemented most detailed engineering choices, including SQLite, whole-body encryption, HMAC matching, derived quarantine, and report aggregation. The candidate requested a walkthrough before submission; independent understanding and live modification readiness are not yet claimed.
+## My decisions and involvement
 
-## Where the AI was wrong or unhelpful
+I chose Assignment A and kept the scope focused on the required core. I asked to work through one phase at a time.
+I worked through questions about phone fingerprints, invalid amounts such as `twelve thousand`, database inspection, report outputs.
+The detailed design choices were developed with AI assistance. These include SQLite for local storage, Fernet encryption for customer and event bodies, keyed HMAC for phone matching, and recalculating event links without changing the original ledger.
 
-- The assistant moved into Phase 3/4 drafts before the candidate wanted to advance. The candidate requested their removal. Those drafts and tests were removed, then the phases were implemented only after separate requests.
-- The initial starter retrieval omitted the unused Assignment B folder. This was discovered during final repository review and the supplied files were restored, without implementing B.
-- The initial expected-report fixture folder matched the starter's `reports/` Git ignore pattern. The assistant detected the issue with `git check-ignore`, moved the hand-calculated fixtures to `tests/fixtures/report_expected/`, and reran the report tests.
-- GitHub/PyPI network failures initially led to development packages being copied into an isolated local environment. Final verification distinguishes that workaround from an installer-created clean environment and does not claim an online install that was not observed.
+## Where the AI needed correction
 
-## How AI-generated code was verified
+The AI initially got the project running by copying packages from another local environment when downloads failed. That hid a setup gap: the environment had no `pip`, and the full requirements had not been installed through the package installer.
 
-- 99 automated tests pass, including independently hand-calculated exact outputs for all five reports.
-- Generated seeds 42, 7, and 99 were exercised through separate CLI processes, comparing sequential/combined runs, repeat imports, reopening, and report bytes.
-- A deliberately failing import proved rollback and retry; old event ciphertext stayed unchanged during late linking.
-- Fixed privacy fixtures and sampled generated records checked PII absence, wrong-key behavior, key permissions, and database integrity.
-- The assistant executed the recorded checks. This disclosure does not claim the candidate independently authored, reviewed every line, or reran every command. Candidate walkthrough and final review remain required before sending the submission.
-- Clean-setup verification details and limitations are recorded in `doc/phase-07-submission.md`.
+## How I checked the result
+
+The project has 99 passing tests. These cover normalization, merge rules, privacy, event deduplication, late linking, report calculations, and failure recovery.
+The five reports are compared against small hand-calculated expected files. Separate process-level tests use generated seeds 42, 7, and 99 to compare sequential and combined imports, repeated runs, and reopening the database. A deliberately failing import checks that the whole drop rolls back and can be retried safely.
+Privacy checks cover known test values and sampled generated records, key permissions, wrong-key handling, and database integrity. The clean environment also passed all 99 tests. The assistant ran these checks through its tools as part of the implementation work.

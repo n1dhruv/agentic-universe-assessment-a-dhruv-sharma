@@ -1,8 +1,8 @@
 # Submission Email Draft
 
-Status: Prepared, not sent. The assignment sender's real destination email and reviewer usernames are still required. Verify repository visibility and reviewer access before sending. The candidate requested a walkthrough before submission.
+I've prepared this email and haven't sent it yet. I still need the sender's submission email and reviewer usernames. Before sending, I need to make the repository private as requested in the assignment and give the reviewers access.
 
-**Subject:** Junior SDE Take-Home — Assignment A — Dhruv Sharma
+**Subject:** Junior SDE take-home: Assignment A, Dhruv Sharma
 
 Hello,
 

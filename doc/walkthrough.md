@@ -1,6 +1,6 @@
 # Code Walkthrough Before Submission
 
-The candidate requested this walkthrough before submitting. Reading it is preparation, not proof that every line is understood. Open the linked modules and run the commands; ask about anything you cannot explain.
+This guide explains how the code fits together. Open the linked modules alongside it and run the commands to follow the flow.
 
 ## 1. The whole program
 
@@ -115,4 +115,4 @@ Practice answering in your own words:
 - Why can a later override change a previously generated success count?
 - Which outputs contain masked phones, and why are generated inputs, databases, and keys absent from Git?
 
-The interviewer may ask for a live change. Trace the owning function and its tests before changing code; do not claim independent understanding until you can do that.
+For a live change in the interview, start with the function responsible for that behavior and its tests.
